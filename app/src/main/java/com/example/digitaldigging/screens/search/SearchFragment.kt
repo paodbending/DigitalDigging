@@ -11,7 +11,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.digitaldigging.databinding.FragmentSearchBinding
 import com.example.digitaldigging.screens.ui.ArtistsInfoAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SearchFragment : Fragment() {
 
     private val viewModel: SearchViewModel by viewModels()

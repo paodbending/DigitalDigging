@@ -5,13 +5,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.pole.data.RepositoryImpl
 import com.pole.domain.Repository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
+import javax.inject.Inject
 
-class SearchViewModel : ViewModel() {
-
-    private lateinit var repository: Repository
+@HiltViewModel
+class SearchViewModel @Inject constructor(
+    private val repository: Repository
+) : ViewModel() {
 
     private val _query = MutableLiveData("")
     val query: LiveData<String> = _query
@@ -20,12 +22,6 @@ class SearchViewModel : ViewModel() {
     val state: LiveData<SearchState> = _state
 
     private var searchJob: Job? = null
-
-    init {
-        viewModelScope.launch {
-            repository = RepositoryImpl.create()
-        }
-    }
 
     fun search(query: String) {
 

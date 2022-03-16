@@ -10,7 +10,9 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.digitaldigging.R
 import com.example.digitaldigging.databinding.FragmentArtistInfoBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ArtistInfoFragment : Fragment() {
 
     private val viewModel: ArtistInfoViewModel by viewModels()

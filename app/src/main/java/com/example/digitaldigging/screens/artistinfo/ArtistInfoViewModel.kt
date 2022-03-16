@@ -4,27 +4,23 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.pole.data.RepositoryImpl
 import com.pole.domain.Repository
 import com.pole.domain.model.ArtistInfo
-import kotlinx.coroutines.Job
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ArtistInfoViewModel : ViewModel() {
-
-    private lateinit var repo: Repository
+@HiltViewModel
+class ArtistInfoViewModel @Inject constructor(
+    private val repository: Repository
+) : ViewModel() {
 
     private val _artistInfo = MutableLiveData<ArtistInfo>()
     val artistInfo: LiveData<ArtistInfo> = _artistInfo
 
-    private val suspendInit: Job = viewModelScope.launch {
-        repo = RepositoryImpl.create()
-    }
-
     fun setSpotifyId(spotifyId: String) {
         viewModelScope.launch {
-            suspendInit.join()
-            _artistInfo.postValue(repo.getArtist(spotifyId))
+            _artistInfo.postValue(repository.getArtist(spotifyId))
         }
     }
 }

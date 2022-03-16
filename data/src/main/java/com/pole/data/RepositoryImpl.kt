@@ -11,15 +11,13 @@ class RepositoryImpl private constructor(
 ) : Repository {
 
     companion object {
-
-        suspend fun create(): RepositoryImpl {
-
+        lateinit var Instance: Repository
+        suspend fun create() {
             val api = spotifyAppApi(
                 clientId = "dc57776c7b8d4c62875bfaa11e0bb70d",
                 clientSecret = "9be837a031c54240941c373f0d0c55a1"
             ).build()
-
-            return RepositoryImpl(api)
+            Instance = RepositoryImpl(api)
         }
     }
 
