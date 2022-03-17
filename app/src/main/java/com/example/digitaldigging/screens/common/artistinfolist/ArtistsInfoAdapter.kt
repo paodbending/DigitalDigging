@@ -1,4 +1,4 @@
-package com.example.digitaldigging.screens.ui
+package com.example.digitaldigging.screens.common.artistinfolist
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,6 +9,7 @@ import com.pole.domain.model.ArtistInfo
 
 class ArtistsInfoAdapter(private val onClick: (ArtistInfo) -> Unit) :
     ListAdapter<ArtistInfo, ArtistInfoViewHolder>(DiffCallback) {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArtistInfoViewHolder {
         val binding =
             LayoutArtistBinding.inflate(LayoutInflater.from(parent.context), parent, false)

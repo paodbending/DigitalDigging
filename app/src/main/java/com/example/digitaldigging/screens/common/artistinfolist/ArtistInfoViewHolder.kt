@@ -1,4 +1,4 @@
-package com.example.digitaldigging.screens.ui
+package com.example.digitaldigging.screens.common.artistinfolist
 
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide

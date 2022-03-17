@@ -5,14 +5,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.pole.domain.Repository
+import com.pole.domain.usecases.SearchArtist
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val repository: Repository
+    private val searchArtist: SearchArtist
 ) : ViewModel() {
 
     private val _query = MutableLiveData("")
@@ -42,7 +42,7 @@ class SearchViewModel @Inject constructor(
             if (currentQuery.isNullOrEmpty()) {
                 _state.value = Idle
             } else {
-                val artists = repository.searchArtist(currentQuery)
+                val artists = searchArtist(currentQuery)
 
                 _state.postValue(
                     SearchResults(

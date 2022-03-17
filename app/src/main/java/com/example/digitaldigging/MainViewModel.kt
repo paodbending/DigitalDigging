@@ -4,7 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.pole.data.RepositoryImpl
+import com.example.digitaldigging.inject.AppModule
+import com.pole.data.DataModule
+import com.pole.domain.DomainModule
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -15,7 +17,11 @@ class MainViewModel : ViewModel() {
 
     init {
         viewModelScope.launch(Dispatchers.Default) {
-            RepositoryImpl.create()
+            // Setup dependencies modules
+            DomainModule.setup()
+            DataModule.setup()
+            AppModule.setup()
+
             _ready.postValue(true)
         }
     }

@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
-import com.example.digitaldigging.R
 import com.example.digitaldigging.databinding.FragmentMainBinding
 
 class MainFragment : Fragment() {
@@ -21,12 +20,11 @@ class MainFragment : Fragment() {
         _binding = FragmentMainBinding.inflate(LayoutInflater.from(context), container, false)
 
         binding.searchButton.setOnClickListener {
-            findNavController().navigate(R.id.action_mainFragment_to_searchFragment)
+            findNavController().navigate(MainFragmentDirections.actionMainFragmentToSearchFragment())
         }
 
         return binding.root
     }
-
 
     override fun onDestroy() {
         super.onDestroy()

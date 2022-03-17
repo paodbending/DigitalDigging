@@ -2,5 +2,6 @@
     <string name="app_name">DigitalDigging</string>
     <string name="search">Search</string>
     <string name="search_artists">Search Artists…</string>
-    <string name="d_followers">%d Followers</string>
+    <string name="s_followers">%s Followers</string>
+    <string name="albums">Albums</string>
 </resources>
