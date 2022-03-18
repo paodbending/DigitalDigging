@@ -1,6 +1,6 @@
 package com.pole.data
 
-import com.adamratzman.spotify.SpotifyAppApi
+import com.adamratzman.spotify.SpotifyAppApiBuilder
 import com.adamratzman.spotify.spotifyAppApi
 import dagger.Module
 import dagger.Provides
@@ -12,16 +12,10 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object DataModule {
 
-    private lateinit var spotifyApi: SpotifyAppApi
-
-    suspend fun setup() {
-        spotifyApi = spotifyAppApi(
-            clientId = "dc57776c7b8d4c62875bfaa11e0bb70d",
-            clientSecret = "9be837a031c54240941c373f0d0c55a1"
-        ).build()
-    }
-
     @Provides
     @Singleton
-    fun provideSpotifyApi() = spotifyApi
+    fun provideSpotifyApiBuilder(): SpotifyAppApiBuilder = spotifyAppApi(
+        clientId = "dc57776c7b8d4c62875bfaa11e0bb70d",
+        clientSecret = "9be837a031c54240941c373f0d0c55a1"
+    )
 }

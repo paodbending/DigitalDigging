@@ -6,9 +6,4 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-object DomainModule {
-
-    suspend fun setup() {
-
-    }
-}
+object DomainModule

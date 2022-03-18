@@ -23,7 +23,7 @@ internal fun com.adamratzman.spotify.models.Artist.toArtistInfo(): ArtistInfo {
             name = name,
             type = type
         ),
-        images = images.map { it.toImage() },
+        image = images.firstOrNull()?.toImage(),
         followers = followers.total,
         genres = genres,
         popularity = popularity
@@ -38,7 +38,7 @@ internal fun com.adamratzman.spotify.models.SimpleAlbum.toAlbum(): Album {
         name = name,
         type = type,
         artists = artists.map { it.toArtist() },
-        images = images.map { it.toImage() },
+        image = images.firstOrNull()?.toImage(),
         totalTracks = totalTracks
     )
 }
@@ -52,7 +52,7 @@ internal fun com.adamratzman.spotify.models.Album.toAlbumInfo(): AlbumInfo {
             name = name,
             type = type,
             artists = artists.map { it.toArtist() },
-            images = images.map { it.toImage() },
+            image = images.firstOrNull()?.toImage(),
             totalTracks = totalTracks
         ),
         releaseDate = releaseDate.toReleaseDate(),
@@ -75,9 +75,7 @@ internal fun SimpleArtist.toArtist(): Artist {
 
 internal fun SpotifyImage.toImage(): Image {
     return Image(
-        url = url,
-        height = height,
-        width = width
+        url = url
     )
 }
 

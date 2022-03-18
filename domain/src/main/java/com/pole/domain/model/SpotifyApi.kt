@@ -1,13 +1,12 @@
-package com.pole.domain
+package com.pole.domain.model
 
-import com.pole.domain.model.Album
-import com.pole.domain.model.AlbumInfo
-import com.pole.domain.model.ArtistInfo
-import com.pole.domain.model.Track
 import javax.inject.Singleton
 
 @Singleton
-interface Repository {
+interface SpotifyApi {
+    val isOnline: Boolean
+    suspend fun setup()
+
     suspend fun searchArtist(query: String): List<ArtistInfo>
     suspend fun getArtistInfo(spotifyId: String): ArtistInfo?
     suspend fun getArtistAlbums(spotifyId: String): List<Album>

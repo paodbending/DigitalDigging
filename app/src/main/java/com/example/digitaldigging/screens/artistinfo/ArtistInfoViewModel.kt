@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.pole.domain.model.AlbumType
 import com.pole.domain.usecases.GetArtistAlbums
 import com.pole.domain.usecases.GetArtistInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,11 +18,12 @@ class ArtistInfoViewModel @Inject constructor(
     private val getArtistAlbums: GetArtistAlbums,
 ) : ViewModel() {
 
-    private val _state = MutableLiveData<ViewState>(Loading)
-    val state: LiveData<ViewState> = _state
+    private val _state = MutableLiveData<ArtistInfoViewState>(Loading)
+    val state: LiveData<ArtistInfoViewState> = _state
 
     fun setSpotifyId(spotifyId: String) {
         viewModelScope.launch {
+
             val artistAsync = async { getArtistInfo(spotifyId) }
             val albumsAsync = async { getArtistAlbums(spotifyId) }
 
@@ -35,7 +37,8 @@ class ArtistInfoViewModel @Inject constructor(
                 _state.postValue(
                     Ready(
                         artist,
-                        albums
+                        albums = albums.filter { it.albumType == AlbumType.ALBUM },
+                        singles = albums.filter { it.albumType == AlbumType.SINGLE },
                     )
                 )
             }

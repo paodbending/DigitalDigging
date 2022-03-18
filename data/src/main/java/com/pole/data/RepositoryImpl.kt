@@ -1,31 +1,37 @@
 package com.pole.data
 
-import com.adamratzman.spotify.SpotifyAppApi
 import com.pole.domain.Repository
-import com.pole.domain.model.Album
-import com.pole.domain.model.ArtistInfo
+import com.pole.domain.model.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class RepositoryImpl @Inject constructor(
-    private val spotifyApi: SpotifyAppApi
+    private val spotifyApi: SpotifyApi
 ) : Repository {
 
     override suspend fun searchArtist(query: String): List<ArtistInfo> {
-        return spotifyApi.search.searchArtist(query).filterNotNull().map { it.toArtistInfo() }
+        return spotifyApi.searchArtist(query)
     }
 
     override suspend fun getArtistInfo(spotifyId: String): ArtistInfo? {
-        return spotifyApi.artists.getArtist(spotifyId)?.toArtistInfo()
+        return spotifyApi.getArtistInfo(spotifyId)
     }
 
     override suspend fun getArtistAlbums(spotifyId: String): List<Album> {
-        return spotifyApi.artists.getArtistAlbums(spotifyId).filterNotNull().map { it.toAlbum() }
+        return spotifyApi.getArtistAlbums(spotifyId)
     }
 
     override suspend fun getRelatedArtistsInfo(spotifyId: String): List<ArtistInfo> {
-        return spotifyApi.artists.getRelatedArtists(spotifyId).filterNotNull()
-            .map { it.toArtistInfo() }
+        return spotifyApi.getRelatedArtistsInfo(spotifyId)
+    }
+
+
+    override suspend fun getAlbumInfo(spotifyId: String): AlbumInfo? {
+        return spotifyApi.getAlbumInfo(spotifyId)
+    }
+
+    override suspend fun getAlbumTracks(spotifyId: String): List<Track> {
+        return spotifyApi.getAlbumTracks(spotifyId)
     }
 }

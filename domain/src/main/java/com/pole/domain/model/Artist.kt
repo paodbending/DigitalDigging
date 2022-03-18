@@ -1,5 +1,6 @@
 package com.pole.domain.model
 
+
 data class Artist(
     val spotifyId: String,
     val spotifyUrl: String?,
@@ -9,8 +10,7 @@ data class Artist(
 
 data class ArtistInfo(
     val artist: Artist,
-
-    val images: List<Image>,
+    val image: Image?,
     val followers: Int? = null,
     val genres: List<String>,
     val popularity: Int,

@@ -7,17 +7,17 @@ import androidx.recyclerview.widget.ListAdapter
 import com.example.digitaldigging.databinding.LayoutAlbumBinding
 import com.pole.domain.model.Album
 
-class AlbumAdapter : ListAdapter<Album, AlbumViewHolder>(DiffCallback) {
+class AlbumAdapter(private val onClick: (Album) -> Unit) : ListAdapter<Album, AlbumViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlbumViewHolder {
         val binding = LayoutAlbumBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
-        return AlbumViewHolder(binding)
+        return AlbumViewHolder(binding, onClick)
     }
 
     override fun onBindViewHolder(holder: AlbumViewHolder, position: Int) {
-        holder.bind(currentList[position])
+        holder.album = currentList[position]
     }
 
     private object DiffCallback : DiffUtil.ItemCallback<Album>() {

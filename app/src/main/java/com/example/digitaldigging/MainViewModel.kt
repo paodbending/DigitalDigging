@@ -4,23 +4,26 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.digitaldigging.inject.AppModule
-import com.pole.data.DataModule
-import com.pole.domain.DomainModule
+import com.pole.domain.Repository
+import com.pole.domain.model.SpotifyApi
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MainViewModel : ViewModel() {
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    spotifyApi: SpotifyApi
+) : ViewModel() {
 
     private val _ready = MutableLiveData(false)
     val ready: LiveData<Boolean> = _ready
 
     init {
         viewModelScope.launch(Dispatchers.Default) {
-            // Setup dependencies modules
-            DomainModule.setup()
-            DataModule.setup()
-            AppModule.setup()
+
+            // Setup spotify api
+            spotifyApi.setup()
 
             _ready.postValue(true)
         }

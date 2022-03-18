@@ -33,6 +33,8 @@ android {
 
 dependencies {
 
+    implementation project(path: ':domain')
+
     // Android / Kotlin
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'
@@ -40,7 +42,6 @@ dependencies {
 
     // Spotify web API
     implementation 'com.adamratzman:spotify-api-kotlin-core:3.8.5'
-    implementation project(path: ':domain')
 
     // Dagger-Hilt
     def dagger_hilt_version = "2.41"

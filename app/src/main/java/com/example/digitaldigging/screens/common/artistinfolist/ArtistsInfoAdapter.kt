@@ -17,7 +17,7 @@ class ArtistsInfoAdapter(private val onClick: (ArtistInfo) -> Unit) :
     }
 
     override fun onBindViewHolder(holder: ArtistInfoViewHolder, position: Int) {
-        holder.bind(currentList[position])
+        holder.artistInfo = currentList[position]
     }
 
     private object DiffCallback : DiffUtil.ItemCallback<ArtistInfo>() {

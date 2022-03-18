@@ -9,7 +9,5 @@ import javax.inject.Singleton
 class SearchArtist @Inject constructor(
     private val repository: Repository
 ) {
-    suspend operator fun invoke(query: String): List<ArtistInfo> = repository.searchArtist(
-        query
-    )
+    suspend operator fun invoke(query: String): List<ArtistInfo> = repository.searchArtist(query)
 }

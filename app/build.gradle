@@ -63,6 +63,8 @@ dependencies {
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.13.0'
 
+    implementation 'com.adamratzman:spotify-api-kotlin-core:3.8.5'
+
     // Dagger-Hilt
     def dagger_hilt_version = "2.41"
     implementation "com.google.dagger:hilt-android:$dagger_hilt_version"

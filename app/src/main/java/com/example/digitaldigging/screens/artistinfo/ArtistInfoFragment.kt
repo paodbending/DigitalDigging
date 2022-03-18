@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -32,11 +33,20 @@ class ArtistInfoFragment : Fragment() {
 
         viewModel.setSpotifyId(args.spotifyId)
 
-
-        val albumsAdapter = AlbumAdapter()
+        val albumsAdapter = AlbumAdapter {
+            navigateToAlbumInfo(it.spotifyId)
+        }
         binding.albumsRecyclerView.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             adapter = albumsAdapter
+        }
+
+        val singlesAdapter = AlbumAdapter {
+            navigateToAlbumInfo(it.spotifyId)
+        }
+        binding.singlesRecyclerView.apply {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            adapter = singlesAdapter
         }
 
         viewModel.state.observe(viewLifecycleOwner) {
@@ -47,21 +57,27 @@ class ArtistInfoFragment : Fragment() {
                     binding.artistNameTextView.text = it.artistInfo.artist.name
                     binding.followersCountTextView.text = getFollowerString(it.artistInfo.followers)
 
-                    val firstImage = it.artistInfo.images.firstOrNull()
-                    if (firstImage != null) {
-                        Glide
-                            .with(binding.root)
-                            .load(firstImage.url)
-                            .centerCrop()
-                            .into(binding.artistImageView)
-                    }
+                    Glide
+                        .with(binding.root)
+                        .load(it.artistInfo.image?.url)
+                        .centerCrop()
+                        .into(binding.artistImageView)
 
                     albumsAdapter.submitList(it.albums)
+                    singlesAdapter.submitList(it.singles)
                 }
             }
         }
 
         return binding.root
+    }
+
+    private fun navigateToAlbumInfo(spotifyId: String) {
+        findNavController().navigate(
+            ArtistInfoFragmentDirections.actionArtistInfoFragmentToAlbumInfoFragment(
+                spotifyId
+            )
+        )
     }
 
     override fun onDestroy() {

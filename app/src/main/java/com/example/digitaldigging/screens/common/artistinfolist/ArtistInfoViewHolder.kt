@@ -11,26 +11,20 @@ class ArtistInfoViewHolder(
 ) :
     RecyclerView.ViewHolder(binding.root) {
 
-    private var artistInfo: ArtistInfo? = null
-
     init {
-        binding.root.setOnClickListener {
-            artistInfo?.let(onClick)
-        }
+        binding.root.setOnClickListener { artistInfo?.let(onClick) }
     }
 
-    fun bind(artistInfo: ArtistInfo) {
-        this.artistInfo = artistInfo
+    var artistInfo: ArtistInfo? = null
+        set(value) {
+            field = value?.also {
+                Glide
+                    .with(binding.root)
+                    .load(it.image?.url)
+                    .centerCrop()
+                    .into(binding.artistImageView)
 
-        val firstImage = artistInfo.images.firstOrNull()
-        if (firstImage != null) {
-            Glide
-                .with(binding.root)
-                .load(firstImage.url)
-                .centerCrop()
-                .into(binding.artistImageView)
+                binding.artistNameTextView.text = it.artist.name
+            }
         }
-
-        binding.artistNameTextView.text = artistInfo.artist.name
-    }
 }
