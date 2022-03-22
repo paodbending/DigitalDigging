@@ -34,6 +34,9 @@
         <action
             android:id="@+id/action_artistInfoFragment_to_albumInfoFragment"
             app:destination="@id/albumInfoFragment" />
+        <action
+            android:id="@+id/action_artistInfoFragment_to_trackInfoFragment"
+            app:destination="@id/trackInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/albumInfoFragment"
@@ -43,5 +46,26 @@
         <argument
             android:name="spotifyId"
             app:argType="string" />
+        <action
+            android:id="@+id/action_albumInfoFragment_to_trackInfoFragment"
+            app:destination="@id/trackInfoFragment" />
+        <action
+            android:id="@+id/action_albumInfoFragment_to_artistInfoFragment"
+            app:destination="@id/artistInfoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/trackInfoFragment"
+        android:name="com.example.digitaldigging.screens.trackinfo.TrackInfoFragment"
+        android:label="fragment_track_info"
+        tools:layout="@layout/fragment_track_info" >
+        <argument
+            android:name="spotifyId"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_trackInfoFragment_to_albumInfoFragment"
+            app:destination="@id/albumInfoFragment" />
+        <action
+            android:id="@+id/action_trackInfoFragment_to_artistInfoFragment"
+            app:destination="@id/artistInfoFragment" />
     </fragment>
 </navigation>

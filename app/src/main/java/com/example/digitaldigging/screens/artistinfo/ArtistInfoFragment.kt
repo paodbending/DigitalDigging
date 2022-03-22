@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.digitaldigging.R
 import com.example.digitaldigging.databinding.FragmentArtistInfoBinding
@@ -33,21 +32,17 @@ class ArtistInfoFragment : Fragment() {
 
         viewModel.setSpotifyId(args.spotifyId)
 
-        val albumsAdapter = AlbumAdapter {
-            navigateToAlbumInfo(it.spotifyId)
-        }
-        binding.albumsRecyclerView.apply {
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            adapter = albumsAdapter
-        }
+        val albumsAdapter = AlbumAdapter { navigateToAlbumInfo(it.spotifyId) }
+        binding.albumsRecyclerView.adapter = albumsAdapter
 
-        val singlesAdapter = AlbumAdapter {
-            navigateToAlbumInfo(it.spotifyId)
-        }
-        binding.singlesRecyclerView.apply {
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            adapter = singlesAdapter
-        }
+        val singlesAdapter = AlbumAdapter { navigateToAlbumInfo(it.spotifyId) }
+        binding.singlesRecyclerView.adapter = singlesAdapter
+
+        val appearsOnAdapter = AlbumAdapter { navigateToAlbumInfo(it.spotifyId) }
+        binding.appearsRecyclerView.adapter = appearsOnAdapter
+
+        val compilationsAdapter = AlbumAdapter { navigateToAlbumInfo(it.spotifyId) }
+        binding.compilationRecyclerView.adapter = compilationsAdapter
 
         viewModel.state.observe(viewLifecycleOwner) {
             when (it) {
@@ -65,12 +60,15 @@ class ArtistInfoFragment : Fragment() {
 
                     albumsAdapter.submitList(it.albums)
                     singlesAdapter.submitList(it.singles)
+                    appearsOnAdapter.submitList(it.appearsOn)
+                    compilationsAdapter.submitList(it.compilations)
                 }
             }
         }
 
         return binding.root
     }
+
 
     private fun navigateToAlbumInfo(spotifyId: String) {
         findNavController().navigate(

@@ -21,7 +21,7 @@ class ArtistInfoViewHolder(
                 Glide
                     .with(binding.root)
                     .load(it.image?.url)
-                    .centerCrop()
+                    .centerInside()
                     .into(binding.artistImageView)
 
                 binding.artistNameTextView.text = it.artist.name

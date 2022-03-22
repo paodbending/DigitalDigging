@@ -8,7 +8,6 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.digitaldigging.databinding.FragmentSearchBinding
 import com.example.digitaldigging.screens.common.artistinfolist.ArtistsInfoAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,7 +26,7 @@ class SearchFragment : Fragment() {
     ): View {
         _binding = FragmentSearchBinding.inflate(LayoutInflater.from(context), container, false)
 
-        val adapter = ArtistsInfoAdapter {
+        val artistAdapter = ArtistsInfoAdapter {
             findNavController().navigate(
                 SearchFragmentDirections.actionSearchFragmentToArtistInfoFragment(
                     it.artist.spotifyId
@@ -35,10 +34,7 @@ class SearchFragment : Fragment() {
             )
         }
 
-        binding.artistsRecyclerView.apply {
-            this.adapter = adapter
-            layoutManager = LinearLayoutManager(context)
-        }
+        binding.artistsRecyclerView.adapter = artistAdapter
 
         binding.searchEditText.doOnTextChanged { text, _, _, _ ->
             viewModel.search(text?.toString() ?: "")
@@ -48,15 +44,15 @@ class SearchFragment : Fragment() {
             when (state) {
                 Loading -> {
                     binding.progressIndicator.visibility = View.VISIBLE
-                    adapter.submitList(emptyList())
+                    artistAdapter.submitList(emptyList())
                 }
                 is SearchResults -> {
                     binding.progressIndicator.visibility = View.GONE
-                    adapter.submitList(state.artists)
+                    artistAdapter.submitList(state.artists)
                 }
                 Idle -> {
                     binding.progressIndicator.visibility = View.GONE
-                    adapter.submitList(emptyList())
+                    artistAdapter.submitList(emptyList())
                 }
             }
         }

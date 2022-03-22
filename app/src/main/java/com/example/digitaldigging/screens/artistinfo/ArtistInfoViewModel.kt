@@ -39,6 +39,8 @@ class ArtistInfoViewModel @Inject constructor(
                         artist,
                         albums = albums.filter { it.albumType == AlbumType.ALBUM },
                         singles = albums.filter { it.albumType == AlbumType.SINGLE },
+                        appearsOn = albums.filter { it.albumType == AlbumType.APPEARS_ON },
+                        compilations = albums.filter { it.albumType == AlbumType.COMPILATION }
                     )
                 )
             }

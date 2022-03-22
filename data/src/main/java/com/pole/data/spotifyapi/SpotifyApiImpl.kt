@@ -2,6 +2,7 @@ package com.pole.data.spotifyapi
 
 import com.adamratzman.spotify.SpotifyAppApi
 import com.adamratzman.spotify.SpotifyAppApiBuilder
+import com.pole.data.*
 import com.pole.data.toAlbum
 import com.pole.data.toAlbumInfo
 import com.pole.data.toArtistInfo
@@ -62,5 +63,9 @@ class SpotifyApiImpl @Inject constructor(
         return spotifyApi?.let { api ->
             api.albums.getAlbumTracks(spotifyId).filterNotNull().map { it.toTrack() }
         } ?: emptyList()
+    }
+
+    override suspend fun getTrackInfo(spotifyId: String): TrackInfo? {
+        return spotifyApi?.tracks?.getTrack(spotifyId)?.toTrackInfo()
     }
 }

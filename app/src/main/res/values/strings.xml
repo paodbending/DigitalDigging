@@ -5,4 +5,11 @@
     <string name="s_followers">%s Followers</string>
     <string name="albums">Albums</string>
     <string name="singles">Singles</string>
+    <string name="explicit">Explicit</string>
+    <string name="artists">Artists</string>
+    <string name="album">Album</string>
+    <string name="album_cover">Album Cover</string>
+    <string name="appears_on">Appears On</string>
+    <string name="compilations">Compilations</string>
+    <string name="artist_image">Artist Image</string>
 </resources>

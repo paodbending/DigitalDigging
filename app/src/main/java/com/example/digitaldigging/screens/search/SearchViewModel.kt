@@ -25,6 +25,8 @@ class SearchViewModel @Inject constructor(
 
     fun search(query: String) {
 
+        if (query == _query.value) return
+
         // Update Query value
         _query.value = query
 

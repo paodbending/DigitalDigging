@@ -14,4 +14,6 @@ interface SpotifyApi {
 
     suspend fun getAlbumInfo(spotifyId: String): AlbumInfo?
     suspend fun getAlbumTracks(spotifyId: String): List<Track>
+    suspend fun getTrackInfo(spotifyId: String): TrackInfo?
+
 }

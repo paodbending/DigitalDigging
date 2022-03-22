@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.digitaldigging.databinding.FragmentAlbumInfoBinding
 import com.example.digitaldigging.screens.common.tracklist.TrackAdapter
@@ -28,11 +28,15 @@ class AlbumInfoFragment : Fragment() {
     ): View {
         _binding = FragmentAlbumInfoBinding.inflate(LayoutInflater.from(context), container, false)
 
-        val trackAdapter = TrackAdapter()
-        binding.tracksRecyclerView.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = trackAdapter
+        val trackAdapter = TrackAdapter {
+            findNavController().navigate(
+                AlbumInfoFragmentDirections.actionAlbumInfoFragmentToTrackInfoFragment(
+                    it.spotifyId
+                )
+            )
         }
+
+        binding.tracksRecyclerView.adapter = trackAdapter
 
         viewModel.state.observe(viewLifecycleOwner) { state ->
             when (state) {

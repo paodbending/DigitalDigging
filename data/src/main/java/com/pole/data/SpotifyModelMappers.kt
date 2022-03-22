@@ -102,3 +102,22 @@ internal fun com.adamratzman.spotify.models.SimpleTrack.toTrack(): Track {
         popularity = popularity
     )
 }
+
+internal fun com.adamratzman.spotify.models.Track.toTrackInfo(): TrackInfo {
+    return TrackInfo(
+        track = Track(
+            spotifyId = id,
+            spotifyUrl = externalUrls.spotify,
+            name = name,
+            artists = artists.map { it.toArtist() },
+            previewUrl = previewUrl,
+            type = type,
+            trackNumber = trackNumber,
+            discNumber = discNumber,
+            length = length,
+            explicit = explicit,
+            popularity = popularity
+        ),
+        album = album.toAlbum()
+    )
+}

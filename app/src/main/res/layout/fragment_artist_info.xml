@@ -1,57 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".screens.artistinfo.ArtistInfoFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".screens.artistinfo.ArtistInfoFragment">
+        android:orientation="vertical">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/artist_image_view"
-            android:layout_width="128dp"
-            android:layout_height="128dp"
-            android:layout_margin="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@tools:sample/avatars" />
-
-        <TextView
-            android:id="@+id/artist_name_text_view"
-            android:layout_width="0dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:gravity="start"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@id/artist_image_view"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/artist_image_view"
-            app:layout_constraintTop_toTopOf="@id/artist_image_view"
-            tools:text="@tools:sample/full_names" />
+            tools:context=".screens.artistinfo.ArtistInfoFragment">
+
+            <ImageView
+                android:id="@+id/artist_image_view"
+                android:layout_width="128dp"
+                android:layout_height="128dp"
+                android:layout_margin="16dp"
+                android:contentDescription="@string/artist_image"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@tools:sample/avatars" />
+
+            <TextView
+                android:id="@+id/artist_name_text_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:gravity="start"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="@id/artist_image_view"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/artist_image_view"
+                app:layout_constraintTop_toTopOf="@id/artist_image_view"
+                tools:text="@tools:sample/full_names" />
+
+            <TextView
+                android:id="@+id/followers_count_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="@+id/artist_name_text_view"
+                app:layout_constraintStart_toStartOf="@+id/artist_name_text_view"
+                app:layout_constraintTop_toBottomOf="@+id/artist_name_text_view"
+                tools:text="@string/s_followers" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
-            android:id="@+id/followers_count_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toEndOf="@+id/artist_name_text_view"
-            app:layout_constraintStart_toStartOf="@+id/artist_name_text_view"
-            app:layout_constraintTop_toBottomOf="@+id/artist_name_text_view"
-            tools:text="@string/s_followers" />
-
-        <TextView
-            android:id="@+id/albums_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/albums"
             android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/artist_image_view"
-            app:layout_constraintTop_toBottomOf="@+id/artist_image_view" />
+            android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/albums_recycler_view"
@@ -60,18 +66,16 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@+id/albums_text_view" />
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/layout_album" />
 
         <TextView
-            android:id="@+id/singles_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/singles"
             android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/artist_image_view"
-            app:layout_constraintTop_toBottomOf="@+id/albums_recycler_view" />
+            android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/singles_recycler_view"
@@ -80,8 +84,43 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@+id/singles_text_view" />
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/layout_album" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/appears_on"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
-</ScrollView>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/appears_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/layout_album" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/compilations"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/compilation_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/layout_album" />
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

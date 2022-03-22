@@ -1,13 +1,11 @@
 package com.pole.domain
 
-import com.pole.domain.model.Album
-import com.pole.domain.model.AlbumInfo
-import com.pole.domain.model.ArtistInfo
-import com.pole.domain.model.Track
+import com.pole.domain.model.*
 import javax.inject.Singleton
 
 @Singleton
 interface Repository {
+
     suspend fun searchArtist(query: String): List<ArtistInfo>
     suspend fun getArtistInfo(spotifyId: String): ArtistInfo?
     suspend fun getArtistAlbums(spotifyId: String): List<Album>
@@ -15,4 +13,7 @@ interface Repository {
 
     suspend fun getAlbumInfo(spotifyId: String): AlbumInfo?
     suspend fun getAlbumTracks(spotifyId: String): List<Track>
+
+
+    suspend fun getTrackInfo(spotifyId: String): TrackInfo?
 }

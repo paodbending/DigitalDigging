@@ -34,4 +34,8 @@ class RepositoryImpl @Inject constructor(
     override suspend fun getAlbumTracks(spotifyId: String): List<Track> {
         return spotifyApi.getAlbumTracks(spotifyId)
     }
+
+    override suspend fun getTrackInfo(spotifyId: String): TrackInfo? {
+        return spotifyApi.getTrackInfo(spotifyId)
+    }
 }
