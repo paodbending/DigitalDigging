@@ -15,9 +15,6 @@ class SearchViewModel @Inject constructor(
     private val searchArtist: SearchArtist
 ) : ViewModel() {
 
-    private val _query = MutableLiveData("")
-    val query: LiveData<String> = _query
-
     private val _state = MutableLiveData<SearchState>(Idle)
     val state: LiveData<SearchState> = _state
 
@@ -25,37 +22,38 @@ class SearchViewModel @Inject constructor(
 
     fun search(query: String) {
 
-        if (query == _query.value) return
+        if (query == getQuery()) return
 
-        // Update Query value
-        _query.value = query
+        _state.value = Loading(query)
 
         searchJob?.cancel()
-
         searchJob = viewModelScope.safeLaunch {
-
-            _state.postValue(Loading)
 
             delay(250)
 
             // Retrieve last value
-            val currentQuery = _query.value
+            val currentQuery = getQuery()
 
-            if (currentQuery.isNullOrEmpty()) {
+            if (currentQuery.isEmpty()) {
                 _state.value = Idle
             } else {
                 val artists = searchArtist(currentQuery)
-
                 _state.postValue(
                     SearchResults(
+                        currentQuery,
                         artists
                     )
                 )
             }
+        }
+    }
 
-            withContext(Dispatchers.Main) {
-                searchJob = null
-            }
+    private fun getQuery(): String {
+        return when (val currentState = state.value) {
+            Idle -> ""
+            is Loading -> currentState.query
+            is SearchResults -> currentState.query
+            null -> ""
         }
     }
 

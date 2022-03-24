@@ -24,6 +24,7 @@ class SearchFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         _binding = FragmentSearchBinding.inflate(LayoutInflater.from(context), container, false)
 
         val artistAdapter = ArtistsInfoAdapter {
@@ -36,13 +37,9 @@ class SearchFragment : Fragment() {
 
         binding.artistsRecyclerView.adapter = artistAdapter
 
-        binding.searchEditText.doOnTextChanged { text, _, _, _ ->
-            viewModel.search(text?.toString() ?: "")
-        }
-
         viewModel.state.observe(viewLifecycleOwner) { state ->
             when (state) {
-                Loading -> {
+                is Loading -> {
                     binding.progressIndicator.visibility = View.VISIBLE
                     artistAdapter.submitList(emptyList())
                 }
@@ -57,8 +54,13 @@ class SearchFragment : Fragment() {
             }
         }
 
+        binding.searchEditText.doOnTextChanged { text, _, _, _ ->
+            viewModel.search(text?.toString() ?: "")
+        }
+
         return binding.root
     }
+
 
     override fun onDestroy() {
         super.onDestroy()

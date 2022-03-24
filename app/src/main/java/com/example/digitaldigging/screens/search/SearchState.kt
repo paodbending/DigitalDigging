@@ -6,8 +6,11 @@ sealed interface SearchState
 
 object Idle : SearchState
 
-object Loading : SearchState
+data class Loading(
+    val query: String
+) : SearchState
 
 data class SearchResults(
+    val query: String,
     val artists: List<ArtistInfo>
 ) : SearchState
