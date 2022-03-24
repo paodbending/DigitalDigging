@@ -68,8 +68,8 @@ class TrackInfoFragment : Fragment() {
             }
         }
 
-        viewModel.albumImage.observe(viewLifecycleOwner) { image ->
-            Glide.with(this).load(image?.url).centerInside().into(binding.albumImageView)
+        viewModel.albumImage.observe(viewLifecycleOwner) { imageUrl ->
+            Glide.with(this).load(imageUrl).centerInside().into(binding.albumImageView)
         }
 
         return binding.root

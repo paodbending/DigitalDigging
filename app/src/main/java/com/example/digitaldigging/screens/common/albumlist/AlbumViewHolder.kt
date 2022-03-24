@@ -15,7 +15,7 @@ class AlbumViewHolder(
             field = value?.also { album ->
                 Glide
                     .with(binding.root)
-                    .load(album.image?.url)
+                    .load(album.imageUrl)
                     .centerCrop()
                     .into(binding.albumImageView)
 

@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pole.domain.model.ArtistInfo
-import com.pole.domain.model.Image
 import com.pole.domain.model.TrackInfo
 import com.pole.domain.usecases.GetAlbumInfo
 import com.pole.domain.usecases.GetArtistInfo
@@ -27,8 +26,8 @@ class TrackInfoViewModel @Inject constructor(
     private val _artists = MutableLiveData<List<ArtistInfo>>()
     val artists: LiveData<List<ArtistInfo>> = _artists
 
-    private val _albumImage = MutableLiveData<Image?>()
-    val albumImage: LiveData<Image?> = _albumImage
+    private val _albumImage = MutableLiveData<String?>()
+    val albumImage: LiveData<String?> = _albumImage
 
     fun setSpotifyId(spotifyId: String) {
         viewModelScope.launch {
@@ -45,7 +44,7 @@ class TrackInfoViewModel @Inject constructor(
                 }
                 launch {
                     _albumImage.postValue(
-                        getAlbumInfo(trackInfo.album.spotifyId)?.album?.image
+                        getAlbumInfo(trackInfo.album.spotifyId)?.album?.imageUrl
                     )
                 }
             }

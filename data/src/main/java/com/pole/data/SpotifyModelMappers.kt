@@ -2,7 +2,6 @@ package com.pole.data
 
 import com.adamratzman.spotify.models.AlbumResultType
 import com.adamratzman.spotify.models.SimpleArtist
-import com.adamratzman.spotify.models.SpotifyImage
 import com.pole.domain.model.*
 
 
@@ -23,7 +22,7 @@ internal fun com.adamratzman.spotify.models.Artist.toArtistInfo(): ArtistInfo {
             name = name,
             type = type
         ),
-        image = images.firstOrNull()?.toImage(),
+        imageUrl = images.firstOrNull()?.url,
         followers = followers.total,
         genres = genres,
         popularity = popularity
@@ -38,7 +37,7 @@ internal fun com.adamratzman.spotify.models.SimpleAlbum.toAlbum(): Album {
         name = name,
         type = type,
         artists = artists.map { it.toArtist() },
-        image = images.firstOrNull()?.toImage(),
+        imageUrl = images.firstOrNull()?.url,
         totalTracks = totalTracks
     )
 }
@@ -52,14 +51,14 @@ internal fun com.adamratzman.spotify.models.Album.toAlbumInfo(): AlbumInfo {
             name = name,
             type = type,
             artists = artists.map { it.toArtist() },
-            image = images.firstOrNull()?.toImage(),
+            imageUrl = images.firstOrNull()?.url,
             totalTracks = totalTracks
         ),
         releaseDate = releaseDate.toReleaseDate(),
         genres = genres,
         label = label,
         popularity = popularity,
-        tracks = tracks.filterNotNull().map { it.toTrack() }
+        tracks = tracks.mapNotNull { it?.toTrack() }
     )
 }
 
@@ -69,13 +68,6 @@ internal fun SimpleArtist.toArtist(): Artist {
         spotifyUrl = externalUrls.spotify,
         name = name,
         type = type
-    )
-}
-
-
-internal fun SpotifyImage.toImage(): Image {
-    return Image(
-        url = url
     )
 }
 

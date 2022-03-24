@@ -10,7 +10,7 @@ data class Artist(
 
 data class ArtistInfo(
     val artist: Artist,
-    val image: Image?,
+    val imageUrl: String?,
     val followers: Int? = null,
     val genres: List<String>,
     val popularity: Int,

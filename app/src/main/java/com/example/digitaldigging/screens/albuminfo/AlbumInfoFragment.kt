@@ -46,7 +46,7 @@ class AlbumInfoFragment : Fragment() {
                     binding.albumNameTextView.text = state.albumInfo.album.name
                     Glide
                         .with(this)
-                        .load(state.albumInfo.album.image?.url)
+                        .load(state.albumInfo.album.imageUrl)
                         .centerCrop()
                         .into(binding.albumImageView)
 

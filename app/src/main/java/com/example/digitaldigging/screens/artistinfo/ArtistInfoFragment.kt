@@ -54,7 +54,7 @@ class ArtistInfoFragment : Fragment() {
 
                     Glide
                         .with(binding.root)
-                        .load(it.artistInfo.image?.url)
+                        .load(it.artistInfo.imageUrl)
                         .centerCrop()
                         .into(binding.artistImageView)
 

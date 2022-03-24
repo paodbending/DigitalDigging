@@ -20,7 +20,7 @@ class ArtistInfoViewHolder(
             field = value?.also {
                 Glide
                     .with(binding.root)
-                    .load(it.image?.url)
+                    .load(it.imageUrl)
                     .centerInside()
                     .into(binding.artistImageView)
 
