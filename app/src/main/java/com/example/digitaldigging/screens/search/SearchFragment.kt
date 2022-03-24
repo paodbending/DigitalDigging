@@ -30,7 +30,7 @@ class SearchFragment : Fragment() {
         val artistAdapter = ArtistsInfoAdapter {
             findNavController().navigate(
                 SearchFragmentDirections.actionSearchFragmentToArtistInfoFragment(
-                    it.artist.spotifyId
+                    it.artist.id
                 )
             )
         }

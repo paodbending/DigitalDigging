@@ -31,7 +31,7 @@ class TrackInfoFragment : Fragment() {
         viewModel.setSpotifyId(navArgs.spotifyId)
 
         binding.albumImageView.setOnClickListener {
-            viewModel.trackInfo.value?.album?.spotifyId?.let { spotifyId ->
+            viewModel.trackInfo.value?.album?.id?.let { spotifyId ->
                 findNavController().navigate(
                     TrackInfoFragmentDirections.actionTrackInfoFragmentToAlbumInfoFragment(
                         spotifyId
@@ -43,7 +43,7 @@ class TrackInfoFragment : Fragment() {
         val artistAdapter = ArtistsInfoAdapter {
             findNavController().navigate(
                 TrackInfoFragmentDirections.actionTrackInfoFragmentToArtistInfoFragment(
-                    it.artist.spotifyId
+                    it.artist.id
                 )
             )
         }

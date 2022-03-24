@@ -1,4 +1,4 @@
-package com.pole.domain.usecases
+package com.pole.domain.usecases.spotify
 
 import com.pole.domain.Repository
 import com.pole.domain.model.ArtistInfo

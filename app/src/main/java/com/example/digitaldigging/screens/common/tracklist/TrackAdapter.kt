@@ -12,7 +12,7 @@ class TrackAdapter(private val onClick: (Track) -> Unit) :
 
     private object DiffCallback : DiffUtil.ItemCallback<Track>() {
         override fun areItemsTheSame(oldItem: Track, newItem: Track): Boolean {
-            return oldItem.spotifyId == newItem.spotifyId
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: Track, newItem: Track): Boolean {

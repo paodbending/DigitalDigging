@@ -16,7 +16,7 @@ private fun toDoubleDigit(value: Int): String {
 }
 
 data class Track(
-    val spotifyId: String,
+    val id: String,
     val spotifyUrl: String?,
 
     val name: String,
@@ -39,4 +39,7 @@ data class TrackInfo(
     val track: Track,
 
     val album: Album,
-)
+) {
+    val id get() = track.id
+    val name get() = track.name
+}

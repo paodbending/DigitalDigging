@@ -32,16 +32,24 @@ class ArtistInfoFragment : Fragment() {
 
         viewModel.setSpotifyId(args.spotifyId)
 
-        val albumsAdapter = AlbumAdapter { navigateToAlbumInfo(it.spotifyId) }
+        binding.addToLibraryButton.setOnClickListener {
+            viewModel.flipLibrary()
+        }
+
+        binding.scheduleButton.setOnClickListener {
+            viewModel.flipSchedule()
+        }
+
+        val albumsAdapter = AlbumAdapter { navigateToAlbumInfo(it.id) }
         binding.albumsRecyclerView.adapter = albumsAdapter
 
-        val singlesAdapter = AlbumAdapter { navigateToAlbumInfo(it.spotifyId) }
+        val singlesAdapter = AlbumAdapter { navigateToAlbumInfo(it.id) }
         binding.singlesRecyclerView.adapter = singlesAdapter
 
-        val appearsOnAdapter = AlbumAdapter { navigateToAlbumInfo(it.spotifyId) }
+        val appearsOnAdapter = AlbumAdapter { navigateToAlbumInfo(it.id) }
         binding.appearsRecyclerView.adapter = appearsOnAdapter
 
-        val compilationsAdapter = AlbumAdapter { navigateToAlbumInfo(it.spotifyId) }
+        val compilationsAdapter = AlbumAdapter { navigateToAlbumInfo(it.id) }
         binding.compilationRecyclerView.adapter = compilationsAdapter
 
         viewModel.state.observe(viewLifecycleOwner) {
@@ -49,8 +57,18 @@ class ArtistInfoFragment : Fragment() {
                 ArtistNotFound -> {}
                 Loading -> {}
                 is Ready -> {
-                    binding.artistNameTextView.text = it.artistInfo.artist.name
+                    binding.artistNameTextView.text = it.artistInfo.name
                     binding.followersCountTextView.text = getFollowerString(it.artistInfo.followers)
+
+                    binding.addToLibraryButton.setImageResource(
+                        if (it.userData.library) R.drawable.ic_baseline_bookmark_24
+                        else R.drawable.ic_baseline_bookmark_border_24
+                    )
+
+                    binding.scheduleButton.setImageResource(
+                        if (it.userData.scheduled) R.drawable.ic_baseline_watch_later_24
+                        else R.drawable.ic_baseline_schedule_24
+                    )
 
                     Glide
                         .with(binding.root)
@@ -68,7 +86,6 @@ class ArtistInfoFragment : Fragment() {
 
         return binding.root
     }
-
 
     private fun navigateToAlbumInfo(spotifyId: String) {
         findNavController().navigate(

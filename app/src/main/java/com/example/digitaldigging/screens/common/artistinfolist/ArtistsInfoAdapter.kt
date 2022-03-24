@@ -22,7 +22,7 @@ class ArtistsInfoAdapter(private val onClick: (ArtistInfo) -> Unit) :
 
     private object DiffCallback : DiffUtil.ItemCallback<ArtistInfo>() {
         override fun areItemsTheSame(oldItem: ArtistInfo, newItem: ArtistInfo): Boolean {
-            return oldItem.artist.spotifyId == newItem.artist.spotifyId
+            return oldItem.artist.id == newItem.artist.id
         }
 
         override fun areContentsTheSame(oldItem: ArtistInfo, newItem: ArtistInfo): Boolean {

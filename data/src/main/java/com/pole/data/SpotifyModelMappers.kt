@@ -14,10 +14,18 @@ internal fun AlbumResultType.toAlbumType(): AlbumType {
     }
 }
 
+internal fun com.adamratzman.spotify.models.ReleaseDate.toReleaseDate(): ReleaseDate {
+    return ReleaseDate(
+        year = year,
+        month = month,
+        day = day
+    )
+}
+
 internal fun com.adamratzman.spotify.models.Artist.toArtistInfo(): ArtistInfo {
     return ArtistInfo(
         artist = Artist(
-            spotifyId = id,
+            id = id,
             spotifyUrl = externalUrls.spotify,
             name = name,
             type = type
@@ -31,7 +39,7 @@ internal fun com.adamratzman.spotify.models.Artist.toArtistInfo(): ArtistInfo {
 
 internal fun com.adamratzman.spotify.models.SimpleAlbum.toAlbum(): Album {
     return Album(
-        spotifyId = id,
+        id = id,
         spotifyUrl = externalUrls.spotify,
         albumType = albumType.toAlbumType(),
         name = name,
@@ -42,10 +50,19 @@ internal fun com.adamratzman.spotify.models.SimpleAlbum.toAlbum(): Album {
     )
 }
 
+internal fun SimpleArtist.toArtist(): Artist {
+    return Artist(
+        id = id,
+        spotifyUrl = externalUrls.spotify,
+        name = name,
+        type = type
+    )
+}
+
 internal fun com.adamratzman.spotify.models.Album.toAlbumInfo(): AlbumInfo {
     return AlbumInfo(
         album = Album(
-            spotifyId = id,
+            id = id,
             spotifyUrl = externalUrls.spotify,
             albumType = albumType.toAlbumType(),
             name = name,
@@ -62,26 +79,9 @@ internal fun com.adamratzman.spotify.models.Album.toAlbumInfo(): AlbumInfo {
     )
 }
 
-internal fun SimpleArtist.toArtist(): Artist {
-    return Artist(
-        spotifyId = id,
-        spotifyUrl = externalUrls.spotify,
-        name = name,
-        type = type
-    )
-}
-
-internal fun com.adamratzman.spotify.models.ReleaseDate.toReleaseDate(): ReleaseDate {
-    return ReleaseDate(
-        year = year,
-        month = month,
-        day = day
-    )
-}
-
 internal fun com.adamratzman.spotify.models.SimpleTrack.toTrack(): Track {
     return Track(
-        spotifyId = id,
+        id = id,
         spotifyUrl = externalUrls.spotify,
         name = name,
         artists = artists.map { it.toArtist() },
@@ -98,7 +98,7 @@ internal fun com.adamratzman.spotify.models.SimpleTrack.toTrack(): Track {
 internal fun com.adamratzman.spotify.models.Track.toTrackInfo(): TrackInfo {
     return TrackInfo(
         track = Track(
-            spotifyId = id,
+            id = id,
             spotifyUrl = externalUrls.spotify,
             name = name,
             artists = artists.map { it.toArtist() },

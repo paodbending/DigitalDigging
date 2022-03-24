@@ -1,12 +1,13 @@
 package com.pole.domain.model
 
-
 data class Artist(
-    val spotifyId: String,
-    val spotifyUrl: String?,
+    override val id: String,
+    override val spotifyUrl: String?,
     val name: String,
     val type: String,
-)
+) : SpotifyEntity {
+    override val entityType: SpotifyEntityType = SpotifyEntityType.ARTIST
+}
 
 data class ArtistInfo(
     val artist: Artist,
@@ -14,4 +15,10 @@ data class ArtistInfo(
     val followers: Int? = null,
     val genres: List<String>,
     val popularity: Int,
-)
+) : SpotifyEntity {
+    override val id get() = artist.id
+    override val spotifyUrl get() = artist.spotifyUrl
+    override val entityType: SpotifyEntityType = SpotifyEntityType.ARTIST
+    val name get() = artist.name
+    val type get() = artist.type
+}

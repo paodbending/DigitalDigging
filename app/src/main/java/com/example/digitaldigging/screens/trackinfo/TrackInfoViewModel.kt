@@ -6,9 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pole.domain.model.ArtistInfo
 import com.pole.domain.model.TrackInfo
-import com.pole.domain.usecases.GetAlbumInfo
-import com.pole.domain.usecases.GetArtistInfo
-import com.pole.domain.usecases.GetTrackInfo
+import com.pole.domain.usecases.spotify.GetAlbumInfo
+import com.pole.domain.usecases.spotify.GetArtistInfo
+import com.pole.domain.usecases.spotify.GetTrackInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -39,12 +39,12 @@ class TrackInfoViewModel @Inject constructor(
             if (trackInfo != null) {
                 launch {
                     _artists.postValue(
-                        trackInfo.track.artists.mapNotNull { getArtistInfo(it.spotifyId) }
+                        trackInfo.track.artists.mapNotNull { getArtistInfo(it.id) }
                     )
                 }
                 launch {
                     _albumImage.postValue(
-                        getAlbumInfo(trackInfo.album.spotifyId)?.album?.imageUrl
+                        getAlbumInfo(trackInfo.album.id)?.album?.imageUrl
                     )
                 }
             }

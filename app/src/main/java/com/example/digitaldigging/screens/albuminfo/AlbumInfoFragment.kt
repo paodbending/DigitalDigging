@@ -31,7 +31,7 @@ class AlbumInfoFragment : Fragment() {
         val trackAdapter = TrackAdapter {
             findNavController().navigate(
                 AlbumInfoFragmentDirections.actionAlbumInfoFragmentToTrackInfoFragment(
-                    it.spotifyId
+                    it.id
                 )
             )
         }

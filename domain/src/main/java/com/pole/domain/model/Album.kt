@@ -8,7 +8,7 @@ enum class AlbumType {
 }
 
 data class Album(
-    val spotifyId: String,
+    val id: String,
     val spotifyUrl: String?,
     val albumType: AlbumType,
     val name: String,
@@ -18,13 +18,20 @@ data class Album(
     val totalTracks: Int? = null,
 )
 
-
 data class AlbumInfo(
     val album: Album,
-
     val releaseDate: ReleaseDate,
     val genres: List<String>,
     val label: String,
     val popularity: Int,
     val tracks: List<Track>
-)
+) {
+    val id get() = album.id
+    val spotifyUrl get() = album.spotifyUrl
+    val albumType get() = album.albumType
+    val name get() = album.name
+    val type get() = album.type
+    val artists get() = album.artists
+    val imageUrl get() = album.imageUrl
+    val totalTracks get() = album.totalTracks
+}

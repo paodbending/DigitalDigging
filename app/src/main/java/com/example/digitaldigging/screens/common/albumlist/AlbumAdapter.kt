@@ -22,7 +22,7 @@ class AlbumAdapter(private val onClick: (Album) -> Unit) : ListAdapter<Album, Al
 
     private object DiffCallback : DiffUtil.ItemCallback<Album>() {
         override fun areItemsTheSame(oldItem: Album, newItem: Album): Boolean {
-            return oldItem.spotifyId == newItem.spotifyId
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: Album, newItem: Album): Boolean {

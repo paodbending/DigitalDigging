@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginStart="8dp"
     tools:context=".screens.artistinfo.ArtistInfoFragment">
 
     <LinearLayout
@@ -51,10 +52,49 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:id="@+id/schedule_button"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:contentDescription="@string/schedule_for_later_listening"
+                android:src="@drawable/ic_baseline_schedule_24"
+                app:tint="@color/spotify_green" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="0.5" />
+
+            <ImageView
+                android:id="@+id/add_to_library_button"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:contentDescription="@string/add_to_library"
+                android:src="@drawable/ic_baseline_bookmark_border_24"
+                app:tint="@color/spotify_green" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+        </LinearLayout>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:text="@string/albums"
             android:textSize="24sp"
             android:textStyle="bold" />

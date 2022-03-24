@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.pole.domain.usecases.GetAlbumInfo
-import com.pole.domain.usecases.GetAlbumTracks
+import com.pole.domain.usecases.spotify.GetAlbumInfo
+import com.pole.domain.usecases.spotify.GetAlbumTracks
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
