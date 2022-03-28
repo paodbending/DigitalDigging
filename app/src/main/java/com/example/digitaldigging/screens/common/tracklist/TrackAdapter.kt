@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.example.digitaldigging.databinding.LayoutTrackBinding
-import com.pole.domain.model.Track
+import com.pole.domain.model.spotify.Track
 
 class TrackAdapter(private val onClick: (Track) -> Unit) :
     ListAdapter<Track, TrackViewHolder>(DiffCallback) {

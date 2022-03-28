@@ -14,4 +14,5 @@
     <string name="artist_image">Artist Image</string>
     <string name="schedule_for_later_listening">Schedule for later listening</string>
     <string name="add_to_library">Add to library</string>
+    <string name="recommended_tracks">Recommended Tracks</string>
 </resources>

@@ -4,7 +4,8 @@ import android.content.Context
 import androidx.room.Room
 import com.adamratzman.spotify.SpotifyAppApiBuilder
 import com.adamratzman.spotify.spotifyAppApi
-import com.pole.data.database.Database
+import com.pole.data.databases.spotifycache.SpotifyCacheDatabase
+import com.pole.data.databases.userdata.UserDataDatabase
 import com.pole.domain.Repository
 import dagger.Binds
 import dagger.Module
@@ -27,10 +28,18 @@ object DataModule {
 
     @Provides
     @Singleton
-    internal fun provideDatabase(@ApplicationContext context: Context): Database =
+    internal fun provideSpotifyDatabase(@ApplicationContext context: Context): SpotifyCacheDatabase =
         Room.databaseBuilder(
             context,
-            Database::class.java, "database.db"
+            SpotifyCacheDatabase::class.java, "spotify_cache_database.db"
+        ).build()
+
+    @Provides
+    @Singleton
+    internal fun provideUserDataDatabase(@ApplicationContext context: Context): UserDataDatabase =
+        Room.databaseBuilder(
+            context,
+            UserDataDatabase::class.java, "userdata_database.db"
         ).build()
 }
 

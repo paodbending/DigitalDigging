@@ -1,29 +1,37 @@
 package com.pole.domain
 
 import com.pole.domain.model.*
+import com.pole.domain.model.spotify.*
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Singleton
 
 @Singleton
 interface Repository {
 
-    suspend fun setup()
+    // Search
+    fun getSearchResults(searchQuery: String): Flow<NetworkResource<SearchResult>>
 
     // Artist
-    suspend fun searchArtist(query: String): List<ArtistInfo>
-    suspend fun getArtistInfo(id: String): ArtistInfo?
-    suspend fun getArtistAlbums(id: String): List<Album>
-    suspend fun getRelatedArtistsInfo(id: String): List<ArtistInfo>
+    fun getArtist(id: String): Flow<NetworkResource<Artist>>
+    fun getArtists(ids: Set<String>): Flow<NetworkResource<List<Artist>>>
+    fun getArtistAlbums(artistId: String): Flow<NetworkResource<List<Album>>>
 
     // Album
-    suspend fun getAlbumInfo(id: String): AlbumInfo?
-    suspend fun getAlbumTracks(id: String): List<Track>
+    fun getAlbum(id: String): Flow<NetworkResource<Album>>
+    fun getAlbums(ids: Set<String>): Flow<NetworkResource<List<Album>>>
+    fun getAlbumTracks(albumId: String): Flow<NetworkResource<List<Track>>>
 
     // Track
-    suspend fun getTrackInfo(id: String): TrackInfo?
+    fun getTrack(id: String): Flow<NetworkResource<Track>>
+    fun getTracks(ids: Set<String>): Flow<NetworkResource<List<Track>>>
+
+    // Recommendations
+    fun getSuggestedArtists(seedArtistId: String): Flow<NetworkResource<List<Artist>>>
+    fun getSuggestedTracks(seedTrackId: String): Flow<NetworkResource<List<Track>>>
 
     // User Data
-    suspend fun getUserData(entity: SpotifyEntity): SpotifyEntityUserData
-    suspend fun setLibrary(entity: SpotifyEntity, boolean: Boolean)
-    suspend fun setScheduled(entity: SpotifyEntity, boolean: Boolean)
+    fun getUserData(id: String, spotifyType: SpotifyType): Flow<UserData>
+    suspend fun flipLibrary(id: String, type: SpotifyType)
+    suspend fun flipScheduled(id: String, type: SpotifyType)
+    suspend fun upsertUserData(id: String, spotifyType: SpotifyType, userData: UserData)
 }

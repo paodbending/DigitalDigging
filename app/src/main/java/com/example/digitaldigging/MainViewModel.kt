@@ -1,30 +1,25 @@
 package com.example.digitaldigging
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.pole.domain.Repository
+import androidx.lifecycle.liveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    repository: Repository
+//    repository: Repository
 ) : ViewModel() {
 
-    private val _ready = MutableLiveData(false)
-    val ready: LiveData<Boolean> = _ready
+    val ready: LiveData<Boolean> = liveData(Dispatchers.Default) {
 
-    init {
-        viewModelScope.launch(Dispatchers.Default) {
+        // Setup repository
+//            repository.setup()
 
-            // Setup repository
-            repository.setup()
+        delay(500)
 
-            _ready.postValue(true)
-        }
+        emit(true)
     }
 }

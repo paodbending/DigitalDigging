@@ -11,10 +11,13 @@
         <entry key="app/src/main/res/font/app_font.xml" value="0.262037037037037" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.38451612903225807" />
         <entry key="app/src/main/res/layout/fragment_album_info.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_album_screen.xml" value="0.23802083333333332" />
         <entry key="app/src/main/res/layout/fragment_artist_info.xml" value="0.2796296296296296" />
+        <entry key="app/src/main/res/layout/fragment_artist_screen.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/fragment_main.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/fragment_search.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/fragment_track_info.xml" value="0.3890625" />
+        <entry key="app/src/main/res/layout/fragment_track_screen.xml" value="0.25" />
         <entry key="app/src/main/res/layout/layout_album.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/layout_album_info.xml" value="0.2078125" />
         <entry key="app/src/main/res/layout/layout_artisst.xml" value="0.4036458333333333" />

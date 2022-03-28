@@ -3,7 +3,7 @@ package com.example.digitaldigging.screens.common.tracklist
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.example.digitaldigging.databinding.LayoutTrackBinding
-import com.pole.domain.model.Track
+import com.pole.domain.model.spotify.Track
 
 class TrackViewHolder(
     private val binding: LayoutTrackBinding,
@@ -23,16 +23,12 @@ class TrackViewHolder(
 
                 binding.trackNameTextView.text = it.name
 
-                binding.artistsTextView.text =
-                    it.artists.joinToString(separator = ", ") { artist -> artist.name }
+//                binding.artistsTextView.text =
+//                    it.artists.joinToString(separator = ", ") { artist -> artist.name }
 
                 binding.durationTextView.text = it.duration
 
-                binding.explicitTextView.visibility = if (it.explicit) {
-                    View.VISIBLE
-                } else {
-                    View.GONE
-                }
+                binding.explicitImageView.visibility = if (it.explicit) View.VISIBLE else View.GONE
             }
         }
 }

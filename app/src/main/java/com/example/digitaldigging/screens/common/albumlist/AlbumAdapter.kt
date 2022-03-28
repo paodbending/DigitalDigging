@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.example.digitaldigging.databinding.LayoutAlbumBinding
-import com.pole.domain.model.Album
+import com.pole.domain.model.spotify.Album
 
 class AlbumAdapter(private val onClick: (Album) -> Unit) : ListAdapter<Album, AlbumViewHolder>(DiffCallback) {
 

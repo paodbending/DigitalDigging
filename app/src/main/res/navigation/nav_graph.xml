@@ -3,69 +3,63 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/mainFragment">
+    app:startDestination="@id/searchScreen">
 
     <fragment
-        android:id="@+id/mainFragment"
-        android:name="com.example.digitaldigging.screens.main.MainFragment"
-        android:label="fragment_main"
-        tools:layout="@layout/fragment_main" >
+        android:id="@+id/searchScreen"
+        android:name="com.example.digitaldigging.screens.search.SearchScreenFragment"
+        android:label="fragment_search_screen"
+        tools:layout="@layout/fragment_search_screen" >
         <action
-            android:id="@+id/action_mainFragment_to_searchFragment"
-            app:destination="@id/searchFragment" />
+            android:id="@+id/action_searchScreenFragment_to_artistScreenFragment"
+            app:destination="@id/artistScreenFragment" />
     </fragment>
     <fragment
-        android:id="@+id/searchFragment"
-        android:name="com.example.digitaldigging.screens.search.SearchFragment"
-        android:label="fragment_search"
-        tools:layout="@layout/fragment_search" >
-        <action
-            android:id="@+id/action_searchFragment_to_artistInfoFragment"
-            app:destination="@id/artistInfoFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/artistInfoFragment"
-        android:name="com.example.digitaldigging.screens.artistinfo.ArtistInfoFragment"
-        android:label="fragment_artist_info"
-        tools:layout="@layout/fragment_artist_info" >
+        android:id="@+id/artistScreenFragment"
+        android:name="com.example.digitaldigging.screens.artistscreen.ArtistScreenFragment"
+        android:label="fragment_artist_screen"
+        tools:layout="@layout/fragment_artist_screen" >
         <argument
             android:name="spotifyId"
             app:argType="string" />
         <action
-            android:id="@+id/action_artistInfoFragment_to_albumInfoFragment"
-            app:destination="@id/albumInfoFragment" />
+            android:id="@+id/action_artistScreenFragment_to_albumScreenFragment"
+            app:destination="@id/albumScreenFragment" />
         <action
-            android:id="@+id/action_artistInfoFragment_to_trackInfoFragment"
-            app:destination="@id/trackInfoFragment" />
+            android:id="@+id/action_artistScreenFragment_to_trackScreenFragment"
+            app:destination="@id/trackScreenFragment" />
     </fragment>
     <fragment
-        android:id="@+id/albumInfoFragment"
-        android:name="com.example.digitaldigging.screens.albuminfo.AlbumInfoFragment"
-        android:label="fragment_album_info"
-        tools:layout="@layout/fragment_album_info" >
+        android:id="@+id/albumScreenFragment"
+        android:name="com.example.digitaldigging.screens.albumscreen.AlbumScreenFragment"
+        android:label="fragment_album_screen"
+        tools:layout="@layout/fragment_album_screen" >
         <argument
             android:name="spotifyId"
             app:argType="string" />
         <action
-            android:id="@+id/action_albumInfoFragment_to_trackInfoFragment"
-            app:destination="@id/trackInfoFragment" />
+            android:id="@+id/action_albumScreenFragment_to_trackScreenFragment"
+            app:destination="@id/trackScreenFragment" />
         <action
-            android:id="@+id/action_albumInfoFragment_to_artistInfoFragment"
-            app:destination="@id/artistInfoFragment" />
+            android:id="@+id/action_albumScreenFragment_to_artistScreenFragment"
+            app:destination="@id/artistScreenFragment" />
     </fragment>
     <fragment
-        android:id="@+id/trackInfoFragment"
-        android:name="com.example.digitaldigging.screens.trackinfo.TrackInfoFragment"
-        android:label="fragment_track_info"
-        tools:layout="@layout/fragment_track_info" >
+        android:id="@+id/trackScreenFragment"
+        android:name="com.example.digitaldigging.screens.trackscreen.TrackScreenFragment"
+        android:label="fragment_track_screen"
+        tools:layout="@layout/fragment_track_screen" >
         <argument
             android:name="spotifyId"
             app:argType="string" />
         <action
-            android:id="@+id/action_trackInfoFragment_to_albumInfoFragment"
-            app:destination="@id/albumInfoFragment" />
+            android:id="@+id/action_trackScreenFragment_to_albumScreenFragment"
+            app:destination="@id/albumScreenFragment" />
         <action
-            android:id="@+id/action_trackInfoFragment_to_artistInfoFragment"
-            app:destination="@id/artistInfoFragment" />
+            android:id="@+id/action_trackScreenFragment_to_artistScreenFragment"
+            app:destination="@id/artistScreenFragment" />
+        <action
+            android:id="@+id/action_trackScreenFragment_self"
+            app:destination="@id/trackScreenFragment" />
     </fragment>
 </navigation>

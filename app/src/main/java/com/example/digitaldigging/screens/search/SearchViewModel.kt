@@ -1,72 +1,95 @@
 package com.example.digitaldigging.screens.search
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.pole.domain.usecases.spotify.SearchArtist
+import androidx.lifecycle.*
+import com.pole.domain.model.NetworkResource
+import com.pole.domain.usecases.spotify.GetAlbums
+import com.pole.domain.usecases.spotify.GetArtists
+import com.pole.domain.usecases.spotify.GetSearchResults
+import com.pole.domain.usecases.spotify.GetTracks
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.combine
 import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val searchArtist: SearchArtist
+    private val getSearchResults: GetSearchResults,
+    private val getArtists: GetArtists,
+    private val getAlbums: GetAlbums,
+    private val getTracks: GetTracks
 ) : ViewModel() {
 
-    private val _state = MutableLiveData<SearchState>(Idle)
-    val state: LiveData<SearchState> = _state
+    private val searchQuery = MutableLiveData<String>()
 
-    private var searchJob: Job? = null
+    val screenState: LiveData<SearchScreenState> =
+        searchQuery.distinctUntilChanged().switchMap { searchQuery ->
+            liveData(context = Dispatchers.Default) {
+
+                if (searchQuery.isNullOrEmpty()) {
+                    emit(SearchScreenState.Idle)
+                } else {
+
+                    emit(SearchScreenState.Loading)
+
+                    delay(250)
+
+                    getSearchResults(searchQuery).collect { searchResults ->
+                        when (searchResults) {
+                            is NetworkResource.Loading -> emit(SearchScreenState.Loading)
+                            is NetworkResource.Error -> emit(SearchScreenState.NetworkError)
+                            is NetworkResource.Ready -> {
+                                combine(
+                                    getArtists(searchResults.value.artistIds.toSet()),
+                                    getAlbums(searchResults.value.albumIds.toSet()),
+                                    getTracks(searchResults.value.trackIds.toSet())
+                                ) { artistsResource, albumsResource, tracksResource ->
+
+                                    val artists = when (artistsResource) {
+                                        is NetworkResource.Ready -> {
+                                            val indexes =
+                                                searchResults.value.artistIds.mapIndexed { i, e -> e to i }
+                                                    .toMap()
+                                            artistsResource.value.sortedBy { indexes[it.id] }
+                                        }
+                                        else -> emptyList()
+                                    }
+
+                                    val albums = when (albumsResource) {
+                                        is NetworkResource.Ready -> {
+                                            val indexes =
+                                                searchResults.value.albumIds.mapIndexed { i, e -> e to i }
+                                                    .toMap()
+                                            albumsResource.value.sortedBy { indexes[it.id] }
+                                        }
+                                        else -> emptyList()
+                                    }
+
+                                    val tracks = when (tracksResource) {
+                                        is NetworkResource.Ready -> {
+                                            val indexes =
+                                                searchResults.value.trackIds.mapIndexed { i, e -> e to i }
+                                                    .toMap()
+                                            tracksResource.value.sortedBy { indexes[it.id] }
+                                        }
+                                        else -> emptyList()
+                                    }
+
+                                    SearchScreenState.Results(
+                                        searchQuery,
+                                        artists = artists,
+                                        albums = albums,
+                                        tracks = tracks
+                                    )
+                                }.collect { emit(it) }
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
     fun search(query: String) {
-
-        if (query == getQuery()) return
-
-        _state.value = Loading(query)
-
-        searchJob?.cancel()
-        searchJob = viewModelScope.safeLaunch {
-
-            delay(250)
-
-            // Retrieve last value
-            val currentQuery = getQuery()
-
-            if (currentQuery.isEmpty()) {
-                _state.value = Idle
-            } else {
-                val artists = searchArtist(currentQuery)
-                _state.postValue(
-                    SearchResults(
-                        currentQuery,
-                        artists
-                    )
-                )
-            }
-        }
-    }
-
-    private fun getQuery(): String {
-        return when (val currentState = state.value) {
-            Idle -> ""
-            is Loading -> currentState.query
-            is SearchResults -> currentState.query
-            null -> ""
-        }
-    }
-
-    fun CoroutineScope.safeLaunch(block: suspend CoroutineScope.() -> Unit): Job {
-        return this.launch {
-            try {
-                block()
-            } catch (ce: CancellationException) {
-                // You can ignore or log this exception
-            } catch (e: Exception) {
-                // Here it's better to at least log the exception
-                Log.e("TAG", "Coroutine error", e)
-            }
-        }
+        searchQuery.value = query
     }
 }
