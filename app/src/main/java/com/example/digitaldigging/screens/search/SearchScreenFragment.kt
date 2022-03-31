@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.digitaldigging.databinding.FragmentSearchScreenBinding
-import com.example.digitaldigging.screens.common.artistinfolist.ArtistsAdapter
+import com.example.digitaldigging.screens.common.artistlist.ArtistsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

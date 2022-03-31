@@ -1,4 +1,4 @@
-package com.example.digitaldigging.screens.common.artistinfolist
+package com.example.digitaldigging.screens.common.artistlist
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

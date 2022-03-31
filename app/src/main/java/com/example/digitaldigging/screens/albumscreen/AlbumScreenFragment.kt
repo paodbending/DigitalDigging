@@ -38,7 +38,7 @@ class AlbumScreenFragment : Fragment() {
             viewModel.flipSchedule()
         }
 
-        val trackAdapter = TrackAdapter { track ->
+        val trackAdapter = TrackAdapter(true) { track ->
             findNavController().navigate(
                 AlbumScreenFragmentDirections.actionAlbumScreenFragmentToTrackScreenFragment(
                     track.id

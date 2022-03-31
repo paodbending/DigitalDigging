@@ -11,7 +11,7 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.digitaldigging.R
 import com.example.digitaldigging.databinding.FragmentTrackScreenBinding
-import com.example.digitaldigging.screens.common.artistinfolist.ArtistsAdapter
+import com.example.digitaldigging.screens.common.artistlist.ArtistsAdapter
 import com.example.digitaldigging.screens.common.tracklist.TrackAdapter
 import com.pole.domain.model.NetworkResource
 import dagger.hilt.android.AndroidEntryPoint

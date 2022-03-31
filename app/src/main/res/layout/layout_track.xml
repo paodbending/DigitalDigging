@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
+    android:minHeight="48dp"
     android:orientation="horizontal"
     android:padding="8dp">
 
@@ -15,55 +16,37 @@
         android:minEms="1"
         android:textAlignment="center"
         android:textSize="12sp"
-        tools:text="1" />
+        tools:text="18" />
 
-    <LinearLayout
-        android:layout_width="0dp"
+    <TextView
+        android:id="@+id/track_name_text_view"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="8dp"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:layout_marginStart="8dp"
+        android:ellipsize="end"
+        android:lines="1"
+        tools:text="@tools:sample/cities" />
 
-        <TextView
-            android:id="@+id/track_name_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:lines="1"
-            android:textSize="14sp"
-            tools:text="@tools:sample/cities" />
+    <ImageView
+        android:id="@+id/explicit_image_view"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:layout_marginStart="8dp"
+        android:contentDescription="@string/explicit"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_baseline_explicit_24"
+        app:tint="@color/spotify_gray_light" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/explicit_image_view"
-                android:layout_width="14dp"
-                android:layout_height="14dp"
-                android:layout_marginEnd="4dp"
-                android:contentDescription="@string/explicit"
-                android:scaleType="centerInside"
-                android:src="@drawable/ic_baseline_explicit_24"
-                app:tint="@color/spotify_gray_light" />
-
-            <TextView
-                android:id="@+id/artists_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:lines="1"
-                android:textSize="11sp"
-                tools:text="@tools:sample/full_names" />
-        </LinearLayout>
-    </LinearLayout>
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
     <TextView
         android:id="@+id/duration_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="3:32" />
+        android:layout_marginEnd="8dp"
+        tools:text="4:23" />
 
 </LinearLayout>

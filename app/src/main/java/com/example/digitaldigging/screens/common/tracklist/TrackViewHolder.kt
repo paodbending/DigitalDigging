@@ -6,6 +6,7 @@ import com.example.digitaldigging.databinding.LayoutTrackBinding
 import com.pole.domain.model.spotify.Track
 
 class TrackViewHolder(
+    private val showTrackNumber: Boolean,
     private val binding: LayoutTrackBinding,
     private val onClick: (Track) -> Unit
 ) :
@@ -13,18 +14,17 @@ class TrackViewHolder(
 
     init {
         binding.root.setOnClickListener { track?.let(onClick) }
+        binding.trackNumberTextView.visibility =
+            if (showTrackNumber) View.VISIBLE else View.GONE
     }
 
     var track: Track? = null
         set(value) {
             field = value?.also {
 
-                binding.trackNumberTextView.text = it.trackNumber.toString()
+                if (showTrackNumber) binding.trackNumberTextView.text = it.trackNumber.toString()
 
                 binding.trackNameTextView.text = it.name
-
-//                binding.artistsTextView.text =
-//                    it.artists.joinToString(separator = ", ") { artist -> artist.name }
 
                 binding.durationTextView.text = it.duration
 

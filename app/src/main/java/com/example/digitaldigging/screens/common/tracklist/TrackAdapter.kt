@@ -7,7 +7,10 @@ import androidx.recyclerview.widget.ListAdapter
 import com.example.digitaldigging.databinding.LayoutTrackBinding
 import com.pole.domain.model.spotify.Track
 
-class TrackAdapter(private val onClick: (Track) -> Unit) :
+class TrackAdapter(
+    private val showTrackNumber: Boolean = false,
+    private val onClick: (Track) -> Unit
+) :
     ListAdapter<Track, TrackViewHolder>(DiffCallback) {
 
     private object DiffCallback : DiffUtil.ItemCallback<Track>() {
@@ -22,7 +25,7 @@ class TrackAdapter(private val onClick: (Track) -> Unit) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder {
         val binding = LayoutTrackBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return TrackViewHolder(binding, onClick)
+        return TrackViewHolder(showTrackNumber, binding, onClick)
     }
 
     override fun onBindViewHolder(holder: TrackViewHolder, position: Int) {
