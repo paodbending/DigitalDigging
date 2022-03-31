@@ -3,8 +3,7 @@ package com.pole.domain.model.spotify
 enum class AlbumType {
     UNKNOWN,
     ALBUM,
-    SINGLE,
-    APPEARS_ON
+    SINGLE
 }
 
 data class Album(

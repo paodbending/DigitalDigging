@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.example.digitaldigging.R
 import com.example.digitaldigging.databinding.FragmentArtistScreenBinding
 import com.example.digitaldigging.screens.common.albumlist.AlbumAdapter
+import com.pole.domain.model.NetworkResource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.roundToInt
 
@@ -47,14 +48,11 @@ class ArtistScreenFragment : Fragment() {
         val singlesAdapter = AlbumAdapter { navigateToAlbumInfo(it.id) }
         binding.singlesRecyclerView.adapter = singlesAdapter
 
-        val appearsOnAdapter = AlbumAdapter { navigateToAlbumInfo(it.id) }
-        binding.appearsRecyclerView.adapter = appearsOnAdapter
-
         viewModel.state.observe(viewLifecycleOwner) { state ->
             when (state) {
-                ArtistNotFound -> {}
-                Loading -> {}
-                is Ready -> {
+                ArtistScreenState.ArtistNotFound -> {}
+                ArtistScreenState.Loading -> {}
+                is ArtistScreenState.Ready -> {
                     binding.artistNameTextView.text = state.artist.name
                     binding.followersCountTextView.text = getFollowerString(state.artist.followers)
 
@@ -74,12 +72,14 @@ class ArtistScreenFragment : Fragment() {
                         .centerCrop()
                         .into(binding.artistImageView)
 
-                    albumsAdapter.submitList(state.albums)
-                    singlesAdapter.submitList(state.singles)
+                    if (state.albums is NetworkResource.Ready) {
+                        val artistsAlbum = state.albums.value
+                        albumsAdapter.submitList(artistsAlbum.albums)
+                        singlesAdapter.submitList(artistsAlbum.singles)
+                    }
                 }
             }
         }
-
         return binding.root
     }
 

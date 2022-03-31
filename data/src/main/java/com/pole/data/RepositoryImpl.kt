@@ -199,7 +199,6 @@ internal class RepositoryImpl @Inject constructor(
                             include = arrayOf(
                                 ArtistApi.AlbumInclusionStrategy.ALBUM,
                                 ArtistApi.AlbumInclusionStrategy.SINGLE,
-                                ArtistApi.AlbumInclusionStrategy.APPEARS_ON,
                             )
                         ).let { results ->
                             artistAlbumsDao.updateResults(
