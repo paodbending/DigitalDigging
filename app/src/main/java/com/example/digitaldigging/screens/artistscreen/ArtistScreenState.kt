@@ -6,9 +6,10 @@ import com.pole.domain.model.spotify.Album
 import com.pole.domain.model.spotify.Artist
 
 sealed interface ArtistScreenState {
-    object ArtistNotFound : ArtistScreenState
 
     object Loading : ArtistScreenState
+
+    object ArtistNotFound : ArtistScreenState
 
     data class Ready(
         val artist: Artist,

@@ -19,9 +19,9 @@ import javax.inject.Inject
 class ArtistScreenViewModel @Inject constructor(
     private val getArtist: GetArtist,
     private val getArtistAlbums: GetArtistAlbums,
+    private val getUserData: GetUserData,
     private val flipUserDataLibrary: FlipUserDataLibrary,
-    private val flipUserDataScheduled: FlipUserDataScheduled,
-    private val getUserData: GetUserData
+    private val flipUserDataScheduled: FlipUserDataScheduled
 ) : ViewModel() {
 
     private val artistId = MutableLiveData<String>()
@@ -59,7 +59,6 @@ class ArtistScreenViewModel @Inject constructor(
                             )
                         }
                     }
-
                 }.collect { emit(it) }
             }
         }

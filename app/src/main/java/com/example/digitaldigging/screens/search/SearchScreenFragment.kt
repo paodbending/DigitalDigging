@@ -65,9 +65,8 @@ class SearchScreenFragment : Fragment() {
 
         return binding.root
     }
-
-
-    override fun onDestroy() {
+    
+     override fun onDestroy() {
         super.onDestroy()
         _binding = null
     }

@@ -28,6 +28,7 @@ class AlbumScreenViewModel @Inject constructor(
 
     val state: LiveData<AlbumScreenState> = albumId.distinctUntilChanged().switchMap { albumId ->
         liveData(Dispatchers.Default) {
+
             emit(AlbumScreenState.Loading)
 
             combine(

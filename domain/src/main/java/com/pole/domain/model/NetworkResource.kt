@@ -1,6 +1,7 @@
 package com.pole.domain.model
 
 sealed interface NetworkResource<T> {
+
     class Loading<T> : NetworkResource<T>
 
     class Error<T> : NetworkResource<T>
@@ -9,4 +10,3 @@ sealed interface NetworkResource<T> {
         val value: T
     ) : NetworkResource<T>
 }
-
