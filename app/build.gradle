@@ -35,6 +35,12 @@ android {
     viewBinding {
         enabled = true
     }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion '1.1.1'
+    }
 }
 
 dependencies {
@@ -50,6 +56,24 @@ dependencies {
     implementation 'com.google.android.material:material:1.5.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
     implementation 'androidx.core:core-splashscreen:1.0.0-beta02'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.0-beta01'
+
+    // Compose
+    // Integration with activities
+    implementation 'androidx.activity:activity-compose:1.4.0'
+    // Compose Material Design
+    implementation 'androidx.compose.material:material:1.1.1'
+    // Animations
+    implementation 'androidx.compose.animation:animation:1.1.1'
+    // Tooling support (Previews, etc.)
+    implementation 'androidx.compose.ui:ui-tooling:1.1.1'
+    // Integration with ViewModels
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1'
+    // UI Tests
+    androidTestImplementation 'androidx.compose.ui:ui-test-junit4:1.1.1'
+
+    // When using a AppCompat theme
+    implementation "com.google.accompanist:accompanist-appcompat-theme:0.16.0"
 
     // View Model
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1"
@@ -58,8 +82,8 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.1'
 
     // Navigation
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.4.1'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.4.1'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.4.2'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.4.2'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     // Glide

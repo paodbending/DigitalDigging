@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/searchScreen"
-        android:name="com.example.digitaldigging.screens.search.SearchScreenFragment"
+        android:name="com.example.digitaldigging.screens.searchscreen.view.SearchScreenFragment"
         android:label="fragment_search_screen"
         tools:layout="@layout/fragment_search_screen" >
         <action
