@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="8dp"
-    tools:context=".screens.searchscreen.view.SearchScreenFragment">
+    tools:context=".screens.search.SearchScreenFragment">
 
     <EditText
         android:id="@+id/search_edit_text"
