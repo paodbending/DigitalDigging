@@ -1,4 +1,4 @@
-package com.pole.domain.model.spotify
+package com.pole.domain.entities
 
 data class SearchResult(
     val artists: List<Artist> = emptyList(),

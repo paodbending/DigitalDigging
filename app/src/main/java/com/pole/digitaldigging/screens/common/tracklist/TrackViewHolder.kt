@@ -4,7 +4,7 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.pole.digitaldigging.databinding.LayoutTrackBinding
-import com.pole.domain.model.spotify.Track
+import com.pole.domain.entities.Track
 
 class TrackViewHolder(
     private val showTrackNumber: Boolean,

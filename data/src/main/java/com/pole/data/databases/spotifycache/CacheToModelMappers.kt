@@ -3,7 +3,7 @@ package com.pole.data.databases.spotifycache
 import com.pole.data.databases.spotifycache.album.CachedAlbum
 import com.pole.data.databases.spotifycache.artist.CachedArtist
 import com.pole.data.databases.spotifycache.track.CachedTrack
-import com.pole.domain.model.spotify.*
+import com.pole.domain.entities.*
 
 
 internal fun CachedArtist.toModelArtist(): Artist {

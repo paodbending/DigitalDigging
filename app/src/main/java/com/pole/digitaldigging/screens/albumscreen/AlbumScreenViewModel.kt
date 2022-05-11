@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.pole.digitaldigging.UIResource
 import com.pole.digitaldigging.toUIResource
-import com.pole.domain.model.NetworkResource
+import com.pole.domain.entities.NetworkResource
 import com.pole.domain.usecases.GetAlbum
 import com.pole.domain.usecases.GetAlbumTracks
 import com.pole.domain.usecases.GetArtists

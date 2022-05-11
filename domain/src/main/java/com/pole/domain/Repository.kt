@@ -1,10 +1,6 @@
 package com.pole.domain
 
-import com.pole.domain.model.NetworkResource
-import com.pole.domain.model.spotify.Album
-import com.pole.domain.model.spotify.Artist
-import com.pole.domain.model.spotify.SearchResultIds
-import com.pole.domain.model.spotify.Track
+import com.pole.domain.entities.*
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Singleton
 

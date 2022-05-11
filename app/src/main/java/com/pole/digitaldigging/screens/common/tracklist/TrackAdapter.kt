@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.pole.digitaldigging.databinding.LayoutTrackBinding
-import com.pole.domain.model.spotify.Track
+import com.pole.domain.entities.Track
 
 class TrackAdapter(
     private val showTrackNumber: Boolean = false,

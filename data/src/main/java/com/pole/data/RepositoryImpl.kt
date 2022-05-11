@@ -11,9 +11,8 @@ import com.pole.data.databases.spotifycache.search.CachedSearchResult
 import com.pole.data.databases.spotifycache.suggestedartists.SuggestedArtistsResult
 import com.pole.data.databases.spotifycache.suggetedtracks.SuggestedTracksResult
 import com.pole.domain.Repository
-import com.pole.domain.model.NetworkResource
-import com.pole.domain.model.error.AppError
-import com.pole.domain.model.spotify.*
+import com.pole.domain.AppError
+import com.pole.domain.entities.*
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock

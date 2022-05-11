@@ -3,7 +3,7 @@ package com.pole.digitaldigging.screens.common.albumlist
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.pole.digitaldigging.databinding.LayoutAlbumBinding
-import com.pole.domain.model.spotify.Album
+import com.pole.domain.entities.Album
 
 class AlbumViewHolder(
     private val binding: LayoutAlbumBinding,

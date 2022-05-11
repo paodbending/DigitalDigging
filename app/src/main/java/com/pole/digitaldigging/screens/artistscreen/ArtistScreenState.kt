@@ -1,8 +1,8 @@
 package com.pole.digitaldigging.screens.artistscreen
 
 import com.pole.digitaldigging.UIResource
-import com.pole.domain.model.spotify.Album
-import com.pole.domain.model.spotify.Artist
+import com.pole.domain.entities.Album
+import com.pole.domain.entities.Artist
 
 sealed interface ArtistScreenState {
 

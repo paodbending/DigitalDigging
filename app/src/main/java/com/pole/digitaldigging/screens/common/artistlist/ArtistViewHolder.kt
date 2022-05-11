@@ -3,7 +3,7 @@ package com.pole.digitaldigging.screens.common.artistlist
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.pole.digitaldigging.databinding.LayoutArtistBinding
-import com.pole.domain.model.spotify.Artist
+import com.pole.domain.entities.Artist
 
 class ArtistViewHolder(
     private val binding: LayoutArtistBinding,

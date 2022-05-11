@@ -1,7 +1,7 @@
 package com.pole.digitaldigging
 
-import com.pole.domain.model.NetworkResource
-import com.pole.domain.model.error.AppError
+import com.pole.domain.entities.NetworkResource
+import com.pole.domain.AppError
 
 sealed interface UIResource<T> {
 

@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.pole.digitaldigging.UIResource
-import com.pole.domain.model.NetworkResource
+import com.pole.domain.entities.NetworkResource
 import com.pole.domain.usecases.GetSearchResults
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

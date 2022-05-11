@@ -1,6 +1,6 @@
-package com.pole.domain.model
+package com.pole.domain.entities
 
-import com.pole.domain.model.error.AppError
+import com.pole.domain.AppError
 
 sealed interface NetworkResource<T> {
 

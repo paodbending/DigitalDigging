@@ -1,8 +1,8 @@
 package com.pole.domain.usecases
 
 import com.pole.domain.Repository
-import com.pole.domain.model.NetworkResource
-import com.pole.domain.model.spotify.SearchResult
+import com.pole.domain.entities.NetworkResource
+import com.pole.domain.entities.SearchResult
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine

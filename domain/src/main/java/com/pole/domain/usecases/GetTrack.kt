@@ -1,8 +1,8 @@
 package com.pole.domain.usecases
 
 import com.pole.domain.Repository
-import com.pole.domain.model.NetworkResource
-import com.pole.domain.model.spotify.Track
+import com.pole.domain.entities.NetworkResource
+import com.pole.domain.entities.Track
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton

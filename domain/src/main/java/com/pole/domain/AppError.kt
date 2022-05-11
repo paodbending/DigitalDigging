@@ -1,4 +1,4 @@
-package com.pole.domain.model.error
+package com.pole.domain
 
 enum class AppError {
     NetworkError

@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.pole.digitaldigging.UIResource
-import com.pole.domain.model.NetworkResource
-import com.pole.domain.model.spotify.AlbumType
+import com.pole.domain.entities.NetworkResource
+import com.pole.domain.entities.AlbumType
 import com.pole.domain.usecases.GetArtist
 import com.pole.domain.usecases.GetArtistAlbums
 import dagger.hilt.android.lifecycle.HiltViewModel

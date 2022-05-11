@@ -1,4 +1,4 @@
-package com.pole.domain.model.spotify
+package com.pole.domain.entities
 
 private const val SECOND = 1000
 private const val MINUTE = 60 * SECOND
