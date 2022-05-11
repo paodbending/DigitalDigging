@@ -9,7 +9,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
-import com.example.digitaldigging.R
 import com.example.digitaldigging.UIResource
 import com.example.digitaldigging.databinding.FragmentTrackScreenBinding
 import com.example.digitaldigging.screens.common.artistlist.ArtistsAdapter
@@ -59,14 +58,6 @@ class TrackScreenFragment : Fragment() {
         }
         binding.suggestedTracksRecyclerView.adapter = suggestedTracksAdapter
 
-        binding.addToLibraryButton.setOnClickListener {
-            viewModel.flipLibrary()
-        }
-
-        binding.scheduleButton.setOnClickListener {
-            viewModel.flipSchedule()
-        }
-
         viewModel.state.observe(viewLifecycleOwner) { state ->
 
             binding.progressCircular.visibility =
@@ -91,15 +82,6 @@ class TrackScreenFragment : Fragment() {
                 binding.explicitImageView.visibility =
                     if (state.track.explicit) View.VISIBLE else View.GONE
 
-                binding.addToLibraryButton.setImageResource(
-                    if (state.userData.library) R.drawable.ic_baseline_bookmark_24
-                    else R.drawable.ic_baseline_bookmark_border_24
-                )
-
-                binding.scheduleButton.setImageResource(
-                    if (state.userData.scheduled) R.drawable.ic_baseline_watch_later_24
-                    else R.drawable.ic_baseline_schedule_24
-                )
 
                 binding.artistsError.root.visibility =
                     if (state.artists is UIResource.Error) View.VISIBLE else View.GONE

@@ -34,14 +34,6 @@ class ArtistScreenFragment : Fragment() {
 
         viewModel.setArtistId(args.spotifyId)
 
-        binding.addToLibraryButton.setOnClickListener {
-            viewModel.flipLibrary()
-        }
-
-        binding.scheduleButton.setOnClickListener {
-            viewModel.flipSchedule()
-        }
-
         val albumsAdapter = AlbumAdapter { navigateToAlbumInfo(it.id) }
         binding.albumsRecyclerView.adapter = albumsAdapter
 
@@ -61,16 +53,6 @@ class ArtistScreenFragment : Fragment() {
 
                 binding.artistNameTextView.text = state.artist.name
                 binding.followersCountTextView.text = getFollowerString(state.artist.followers)
-
-                binding.addToLibraryButton.setImageResource(
-                    if (state.userData.library) R.drawable.ic_baseline_bookmark_24
-                    else R.drawable.ic_baseline_bookmark_border_24
-                )
-
-                binding.scheduleButton.setImageResource(
-                    if (state.userData.scheduled) R.drawable.ic_baseline_watch_later_24
-                    else R.drawable.ic_baseline_schedule_24
-                )
 
                 Glide
                     .with(binding.root)

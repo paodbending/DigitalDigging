@@ -1,4 +1,4 @@
-package com.pole.domain.usecases.spotify
+package com.pole.domain.usecases
 
 import com.pole.domain.Repository
 import com.pole.domain.model.NetworkResource

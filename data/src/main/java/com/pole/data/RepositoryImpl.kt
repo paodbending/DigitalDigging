@@ -10,11 +10,8 @@ import com.pole.data.databases.spotifycache.artistalbums.ArtistAlbumsResult
 import com.pole.data.databases.spotifycache.search.CachedSearchResult
 import com.pole.data.databases.spotifycache.suggestedartists.SuggestedArtistsResult
 import com.pole.data.databases.spotifycache.suggetedtracks.SuggestedTracksResult
-import com.pole.data.databases.userdata.DatabaseUserData
-import com.pole.data.databases.userdata.UserDataDatabase
 import com.pole.domain.Repository
 import com.pole.domain.model.NetworkResource
-import com.pole.domain.model.UserData
 import com.pole.domain.model.error.AppError
 import com.pole.domain.model.spotify.*
 import kotlinx.coroutines.flow.*
@@ -27,7 +24,6 @@ import javax.inject.Singleton
 internal class RepositoryImpl @Inject constructor(
     private val spotifyAppApiBuilder: SpotifyAppApiBuilder,
     spotifyCacheDatabase: SpotifyCacheDatabase,
-    userDataDatabase: UserDataDatabase,
 ) : Repository {
 
     private val searchDao = spotifyCacheDatabase.searchDao()
@@ -38,8 +34,6 @@ internal class RepositoryImpl @Inject constructor(
     private val albumTracksDao = spotifyCacheDatabase.albumTracksDao()
     private val suggestedTracksDao = spotifyCacheDatabase.suggestedTracksDao()
     private val suggestedArtistsDao = spotifyCacheDatabase.suggestedArtistsDao()
-
-    private val userDataDao = userDataDatabase.dao()
 
     private var _spotifyApi: SpotifyAppApi? = null
     private val _spotifyApiMutex = Mutex()
@@ -385,52 +379,4 @@ internal class RepositoryImpl @Inject constructor(
                     }
                 }
         }
-
-    override fun getUserData(id: String, spotifyType: SpotifyType): Flow<UserData> {
-        return userDataDao.getUserData(id).map {
-            UserData(
-                dateAddedToSchedule = it?.dateAddedToSchedule,
-                dateAddedToLibrary = it?.dateAddedToLibrary
-            )
-        }
-    }
-
-    override suspend fun flipLibrary(id: String, type: SpotifyType) {
-        val databaseValue = getUserData(id, type).first()
-        userDataDao.upsertUserData(
-            DatabaseUserData(
-                id = id,
-                type = type.toString(),
-                dateAddedToLibrary = if (databaseValue.library) null else System.currentTimeMillis(),
-                dateAddedToSchedule = databaseValue.dateAddedToSchedule
-            )
-        )
-    }
-
-    override suspend fun flipScheduled(id: String, type: SpotifyType) {
-        val databaseValue = getUserData(id, type).first()
-        userDataDao.upsertUserData(
-            DatabaseUserData(
-                id = id,
-                type = type.toString(),
-                dateAddedToLibrary = databaseValue.dateAddedToLibrary,
-                dateAddedToSchedule = if (databaseValue.scheduled) null else System.currentTimeMillis(),
-            )
-        )
-    }
-
-    override suspend fun upsertUserData(
-        id: String,
-        spotifyType: SpotifyType,
-        userData: UserData,
-    ) {
-        return userDataDao.upsertUserData(
-            DatabaseUserData(
-                id = id,
-                type = spotifyType.toString(),
-                dateAddedToLibrary = userData.dateAddedToLibrary,
-                dateAddedToSchedule = userData.dateAddedToSchedule
-            )
-        )
-    }
 }

@@ -52,10 +52,10 @@
                 android:id="@+id/track_name_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="32dp"
                 android:textAlignment="center"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:layout_marginHorizontal="32dp"
                 tools:text="@tools:sample/cities" />
 
             <LinearLayout
@@ -80,46 +80,6 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/spotify_gray_light"
                     tools:text="3:32" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:visibility="gone">
-
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
-
-                <ImageView
-                    android:id="@+id/schedule_button"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:contentDescription="@string/schedule_for_later_listening"
-                    android:src="@drawable/ic_baseline_schedule_24"
-                    app:tint="@color/spotify_green" />
-
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="0.5" />
-
-                <ImageView
-                    android:id="@+id/add_to_library_button"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:contentDescription="@string/add_to_library"
-                    android:src="@drawable/ic_baseline_bookmark_border_24"
-                    app:tint="@color/spotify_green" />
-
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
             </LinearLayout>
 
             <TextView

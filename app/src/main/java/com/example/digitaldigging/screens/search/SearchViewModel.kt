@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.example.digitaldigging.UIResource
 import com.pole.domain.model.NetworkResource
-import com.pole.domain.usecases.spotify.GetSearchResults
+import com.pole.domain.usecases.GetSearchResults
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay

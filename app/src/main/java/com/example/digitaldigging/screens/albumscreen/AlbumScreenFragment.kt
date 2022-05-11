@@ -9,7 +9,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
-import com.example.digitaldigging.R
 import com.example.digitaldigging.UIResource
 import com.example.digitaldigging.databinding.FragmentAlbumScreenBinding
 import com.example.digitaldigging.screens.common.artistlist.ArtistsAdapter
@@ -31,14 +30,6 @@ class AlbumScreenFragment : Fragment() {
     ): View {
         _binding =
             FragmentAlbumScreenBinding.inflate(LayoutInflater.from(context), container, false)
-
-        binding.addToLibraryButton.setOnClickListener {
-            viewModel.flipLibrary()
-        }
-
-        binding.scheduleButton.setOnClickListener {
-            viewModel.flipSchedule()
-        }
 
         val trackAdapter = TrackAdapter(true) { track ->
             findNavController().navigate(
@@ -100,16 +91,6 @@ class AlbumScreenFragment : Fragment() {
                     if (state.tracks is UIResource.Ready) View.VISIBLE else View.GONE
 
                 trackAdapter.submitList(if (state.tracks is UIResource.Ready) state.tracks.value else emptyList())
-
-                binding.addToLibraryButton.setImageResource(
-                    if (state.userData.library) R.drawable.ic_baseline_bookmark_24
-                    else R.drawable.ic_baseline_bookmark_border_24
-                )
-
-                binding.scheduleButton.setImageResource(
-                    if (state.userData.scheduled) R.drawable.ic_baseline_watch_later_24
-                    else R.drawable.ic_baseline_schedule_24
-                )
             }
         }
 
