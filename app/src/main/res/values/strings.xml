@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">DigitalDigging</string>
     <string name="search">Search</string>
-    <string name="search_artists">Search Artists…</string>
+    <string name="search_hint">Search…</string>
     <string name="s_followers">%s Followers</string>
     <string name="albums">Albums</string>
     <string name="singles">Singles</string>
@@ -15,4 +15,15 @@
     <string name="schedule_for_later_listening">Schedule for later listening</string>
     <string name="add_to_library">Add to library</string>
     <string name="recommended_tracks">Recommended Tracks</string>
+    <string name="best_results">Best Results</string>
+    <string name="tracks">Tracks</string>
+    <string name="relevance">Relevance</string>
+    <string name="popularity">Popularity</string>
+    <string name="followers">Followers</string>
+    <string name="release_date">Release Date</string>
+    <string name="length">Length</string>
+    <string name="error_icon">error_icon</string>
+    <string name="no_internet_connection_error">No Internet Connection!</string>
+    <string name="search_something">Search something!</string>
+    <string name="search_icon">Search Icon</string>
 </resources>

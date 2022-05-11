@@ -1,95 +1,120 @@
 package com.example.digitaldigging.screens.search
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
+import com.example.digitaldigging.UIResource
 import com.pole.domain.model.NetworkResource
-import com.pole.domain.usecases.spotify.GetAlbums
-import com.pole.domain.usecases.spotify.GetArtists
 import com.pole.domain.usecases.spotify.GetSearchResults
-import com.pole.domain.usecases.spotify.GetTracks
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val getSearchResults: GetSearchResults,
-    private val getArtists: GetArtists,
-    private val getAlbums: GetAlbums,
-    private val getTracks: GetTracks
 ) : ViewModel() {
 
-    private val searchQuery = MutableLiveData<String>()
+    private val searchQueryFlow = MutableStateFlow("")
 
-    val screenState: LiveData<SearchScreenState> =
-        searchQuery.distinctUntilChanged().switchMap { searchQuery ->
-            liveData(context = Dispatchers.Default) {
+    private val searchSettingFlow = MutableStateFlow(SearchSettings(
+        searchType = SearchType.ALL,
+        artistSortType = ArtistSortType.RELEVANCE,
+        albumSortType = AlbumSortType.RELEVANCE,
+        trackSortType = TrackSortType.RELEVANCE
+    ))
 
-                if (searchQuery.isNullOrEmpty()) {
-                    emit(SearchScreenState.Idle)
-                } else {
+    val state: LiveData<SearchScreenState> = liveData(Dispatchers.Default) {
+        searchQueryFlow.collectLatest { searchQuery ->
 
-                    emit(SearchScreenState.Loading)
+            if (searchQuery.isEmpty()) {
+                searchSettingFlow.collectLatest { searchSettings ->
+                    emit(
+                        SearchScreenState(
+                            searchQuery = searchQuery,
+                            searchSettings = searchSettings,
+                            results = UIResource.Loading()
+                        )
+                    )
+                }
+            } else {
 
-                    delay(250)
+                delay(250)
 
-                    getSearchResults(searchQuery).collect { searchResults ->
-                        when (searchResults) {
-                            is NetworkResource.Loading -> emit(SearchScreenState.Loading)
-                            is NetworkResource.Error -> emit(SearchScreenState.NetworkError)
-                            is NetworkResource.Ready -> {
-                                combine(
-                                    getArtists(searchResults.value.artistIds.toSet()),
-                                    getAlbums(searchResults.value.albumIds.toSet()),
-                                    getTracks(searchResults.value.trackIds.toSet())
-                                ) { artistsResource, albumsResource, tracksResource ->
+                getSearchResults(searchQuery).collectLatest { searchResults ->
 
-                                    val artists = when (artistsResource) {
-                                        is NetworkResource.Ready -> {
-                                            val indexes =
-                                                searchResults.value.artistIds.mapIndexed { i, e -> e to i }
-                                                    .toMap()
-                                            artistsResource.value.sortedBy { indexes[it.id] }
-                                        }
-                                        else -> emptyList()
+                    searchSettingFlow.collectLatest { searchSettings ->
+
+                        emit(SearchScreenState(
+                            searchQuery = searchQuery,
+                            searchSettings = searchSettings,
+                            results = when (searchResults) {
+                                is NetworkResource.Ready -> UIResource.Ready(
+                                    when (searchSettings.searchType) {
+                                        SearchType.ALL -> Results(
+                                            artists = searchResults.value.artists,
+                                            albums = searchResults.value.albums,
+                                            tracks = searchResults.value.tracks
+                                        )
+                                        SearchType.ARTISTS -> Results(
+                                            artists = when (searchSettings.artistSortType) {
+                                                ArtistSortType.RELEVANCE -> searchResults.value.artists
+                                                ArtistSortType.POPULARITY -> searchResults.value.artists.sortedByDescending { it.popularity }
+                                                ArtistSortType.FOLLOWERS -> searchResults.value.artists.sortedByDescending { it.followers }
+                                            }.filter { it.imageUrl != null && it.followers >= 1000 },
+                                            albums = emptyList(),
+                                            tracks = emptyList()
+                                        )
+                                        SearchType.ALBUMS -> Results(
+                                            artists = emptyList(),
+                                            albums = when (searchSettings.albumSortType) {
+                                                AlbumSortType.RELEVANCE -> searchResults.value.albums
+                                                AlbumSortType.POPULARITY -> searchResults.value.albums.sortedByDescending { it.popularity }
+                                                AlbumSortType.RELEASE_DATE -> searchResults.value.albums.sortedByDescending { it.releaseDate.toString() }
+                                            },
+                                            tracks = emptyList()
+                                        )
+                                        SearchType.TRACKS -> Results(
+                                            artists = emptyList(),
+                                            albums = emptyList(),
+                                            tracks = when (searchSettings.trackSortType) {
+                                                TrackSortType.RELEVANCE -> searchResults.value.tracks
+                                                TrackSortType.POPULARITY -> searchResults.value.tracks.sortedByDescending { it.popularity }
+                                                TrackSortType.LENGTH -> searchResults.value.tracks.sortedByDescending { it.length }
+                                            }
+                                        )
                                     }
-
-                                    val albums = when (albumsResource) {
-                                        is NetworkResource.Ready -> {
-                                            val indexes =
-                                                searchResults.value.albumIds.mapIndexed { i, e -> e to i }
-                                                    .toMap()
-                                            albumsResource.value.sortedBy { indexes[it.id] }
-                                        }
-                                        else -> emptyList()
-                                    }
-
-                                    val tracks = when (tracksResource) {
-                                        is NetworkResource.Ready -> {
-                                            val indexes =
-                                                searchResults.value.trackIds.mapIndexed { i, e -> e to i }
-                                                    .toMap()
-                                            tracksResource.value.sortedBy { indexes[it.id] }
-                                        }
-                                        else -> emptyList()
-                                    }
-
-                                    SearchScreenState.Results(
-                                        searchQuery,
-                                        artists = artists,
-                                        albums = albums,
-                                        tracks = tracks
-                                    )
-                                }.collect { emit(it) }
+                                )
+                                is NetworkResource.Error -> UIResource.Error(searchResults.appError)
+                                is NetworkResource.Loading -> UIResource.Loading()
                             }
-                        }
+                        ))
                     }
                 }
             }
         }
+    }
 
-    fun search(query: String) {
-        searchQuery.value = query
+    fun setSearchType(searchType: SearchType) {
+        searchSettingFlow.value = SearchSettings(searchType)
+    }
+
+    fun search(searchQuery: String) {
+        searchQueryFlow.value = searchQuery
+    }
+
+    fun setArtistSortType(artistSortType: ArtistSortType) {
+        searchSettingFlow.value = searchSettingFlow.value.copy(artistSortType = artistSortType)
+    }
+
+    fun setAlbumSortType(albumSortType: AlbumSortType) {
+        searchSettingFlow.value = searchSettingFlow.value.copy(albumSortType = albumSortType)
+    }
+
+    fun setTrackSortType(trackSortType: TrackSortType) {
+        searchSettingFlow.value = searchSettingFlow.value.copy(trackSortType = trackSortType)
     }
 }

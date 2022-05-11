@@ -1,24 +1,21 @@
 package com.pole.data
 
-import android.util.Log
 import com.adamratzman.spotify.SpotifyAppApi
 import com.adamratzman.spotify.SpotifyAppApiBuilder
 import com.adamratzman.spotify.endpoints.pub.ArtistApi
 import com.adamratzman.spotify.endpoints.pub.SearchApi
 import com.pole.data.databases.spotifycache.*
-import com.pole.data.databases.spotifycache.SpotifyCacheDatabase
 import com.pole.data.databases.spotifycache.albumtracks.AlbumTracksResult
 import com.pole.data.databases.spotifycache.artistalbums.ArtistAlbumsResult
 import com.pole.data.databases.spotifycache.search.CachedSearchResult
 import com.pole.data.databases.spotifycache.suggestedartists.SuggestedArtistsResult
 import com.pole.data.databases.spotifycache.suggetedtracks.SuggestedTracksResult
-import com.pole.data.databases.spotifycache.toModelAlbum
-import com.pole.data.databases.spotifycache.toModelArtist
-import com.pole.data.databases.spotifycache.toModelTrack
 import com.pole.data.databases.userdata.DatabaseUserData
 import com.pole.data.databases.userdata.UserDataDatabase
 import com.pole.domain.Repository
-import com.pole.domain.model.*
+import com.pole.domain.model.NetworkResource
+import com.pole.domain.model.UserData
+import com.pole.domain.model.error.AppError
 import com.pole.domain.model.spotify.*
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.sync.Mutex
@@ -30,7 +27,7 @@ import javax.inject.Singleton
 internal class RepositoryImpl @Inject constructor(
     private val spotifyAppApiBuilder: SpotifyAppApiBuilder,
     spotifyCacheDatabase: SpotifyCacheDatabase,
-    userDataDatabase: UserDataDatabase
+    userDataDatabase: UserDataDatabase,
 ) : Repository {
 
     private val searchDao = spotifyCacheDatabase.searchDao()
@@ -63,40 +60,41 @@ internal class RepositoryImpl @Inject constructor(
     }
 
     private suspend inline fun <T> FlowCollector<NetworkResource<T>>.safeApiCall(
-        block: (SpotifyAppApi) -> Unit
+        block: (SpotifyAppApi) -> Unit,
     ) {
         getSpotifyApi().let { api ->
             if (api == null) {
-                emit(NetworkResource.Error())
+                emit(NetworkResource.Error(AppError.NetworkError))
             } else {
                 try {
                     block(api)
                 } catch (e: Exception) {
-                    emit(NetworkResource.Error())
+                    emit(NetworkResource.Error(AppError.NetworkError))
                 }
             }
         }
     }
 
-    override fun getSearchResults(searchQuery: String): Flow<NetworkResource<SearchResult>> = flow {
-        emit(NetworkResource.Loading())
-        searchDao.getRequest(searchQuery).collect { request ->
-            if (request == null || request.isNotValid) {
-                safeApiCall { api ->
-                    api.search.search(
-                        searchQuery, searchTypes = arrayOf(
-                            SearchApi.SearchType.ARTIST,
-                            SearchApi.SearchType.ALBUM,
-                            SearchApi.SearchType.TRACK
+    override fun getSearchResultIds(searchQuery: String): Flow<NetworkResource<SearchResultIds>> =
+        flow {
+            emit(NetworkResource.Loading())
+            searchDao.getRequest(searchQuery).collect { request ->
+                if (request == null || request.isNotValid) {
+                    safeApiCall { api ->
+                        val results = api.search.search(
+                            searchQuery, searchTypes = arrayOf(
+                                SearchApi.SearchType.ARTIST,
+                                SearchApi.SearchType.ALBUM,
+                                SearchApi.SearchType.TRACK
+                            )
                         )
-                    ).let { results ->
 
                         // Update cache since we're here
                         results.artists?.mapNotNull { it?.toCachedArtist() }?.let {
                             artistDao.upsertArtists(it)
                         }
                         results.tracks?.mapNotNull { it?.toCachedTrack() }?.let {
-                            trackDao.upsertTracks(it)
+                            trackDao.upsertCachedTracks(it)
                         }
 
                         searchDao.updateResults(
@@ -130,25 +128,24 @@ internal class RepositoryImpl @Inject constructor(
                                         } ?: emptyList()),
                         )
                     }
-                }
-            } else {
-                searchDao.getResults(searchQuery).collect { results ->
-                    emit(
-                        NetworkResource.Ready(
-                            SearchResult(
-                                artistIds = results.filter { it.type == SpotifyType.ARTIST.toString() }
-                                    .map { it.id },
-                                albumIds = results.filter { it.type == SpotifyType.ALBUM.toString() }
-                                    .map { it.id },
-                                trackIds = results.filter { it.type == SpotifyType.TRACK.toString() }
-                                    .map { it.id },
+                } else {
+                    searchDao.getResults(searchQuery).collect { results ->
+                        emit(
+                            NetworkResource.Ready(
+                                SearchResultIds(
+                                    artistsIds = results.filter { it.type == SpotifyType.ARTIST.toString() }
+                                        .map { it.id },
+                                    albumsIds = results.filter { it.type == SpotifyType.ALBUM.toString() }
+                                        .map { it.id },
+                                    tracksIds = results.filter { it.type == SpotifyType.TRACK.toString() }
+                                        .map { it.id },
+                                )
                             )
                         )
-                    )
+                    }
                 }
             }
         }
-    }
 
     override fun getArtist(id: String): Flow<NetworkResource<Artist>> = flow {
         emit(NetworkResource.Loading())
@@ -267,9 +264,6 @@ internal class RepositoryImpl @Inject constructor(
                     safeApiCall { api ->
                         api.albums.getAlbumTracks(albumId).let { results ->
 
-                            // Update cache since we're here
-                            trackDao.upsertTracks(results.mapNotNull { it?.toCachedTrack(albumId) })
-
                             albumTracksDao.updateResults(
                                 albumId = albumId,
                                 results = results.mapNotNull { it }.map {
@@ -291,11 +285,11 @@ internal class RepositoryImpl @Inject constructor(
 
     override fun getTrack(id: String): Flow<NetworkResource<Track>> = flow {
         emit(NetworkResource.Loading())
-        trackDao.getTrack(id).collect { cachedTrack ->
+        trackDao.getCachedTrack(id).collect { cachedTrack ->
             if (cachedTrack == null || cachedTrack.isNotValid) {
                 safeApiCall { api ->
                     api.tracks.getTrack(id)?.let {
-                        trackDao.upsertTrack(it.toCachedTrack())
+                        trackDao.upsertCachedTrack(it.toCachedTrack())
                     }
                 }
             } else {
@@ -307,21 +301,21 @@ internal class RepositoryImpl @Inject constructor(
     override fun getTracks(ids: Set<String>): Flow<NetworkResource<List<Track>>> = flow {
         emit(NetworkResource.Loading())
         trackDao
-            .getTracks(ids.toList())
-            .map { tracks -> tracks.filterNot { it.isNotValid } }
-            .collect { tracks ->
-                if (tracks.size == ids.size) {
-                    Log.v("Poro", "Repo.getTracks: Emitting ${tracks.size} tracks")
-                    emit(NetworkResource.Ready(tracks.map { it.toModelTrack() }))
+            .getCachedTracks(ids.toList())
+            .map { cachedTrack ->
+                cachedTrack.filterNot { it.isNotValid }
+            }
+            .collect { cachedTracks ->
+                if (cachedTracks.size == ids.size) {
+                    emit(NetworkResource.Ready(cachedTracks.map { it.toModelTrack() }))
                 } else {
                     // Some elements are missing in cache
-                    val cachedSet = tracks.map { it.id }.toSet()
+                    val cachedSet = cachedTracks.map { it.id }.toSet()
                     val missingIds = ids.filterNot { cachedSet.contains(it) }.toTypedArray()
                     // Cache missing artists
                     safeApiCall { api ->
-                        Log.v("Poro", "Repo.getTracks: Downlading ${missingIds.size} tracks")
                         api.tracks.getTracks(*missingIds).mapNotNull { it }.let {
-                            trackDao.upsertTracks(it.map { track -> track.toCachedTrack() })
+                            trackDao.upsertCachedTracks(it.map { track -> track.toCachedTrack() })
                         }
                     }
                 }
@@ -365,17 +359,11 @@ internal class RepositoryImpl @Inject constructor(
                 .getRequest(seedTrackId)
                 .collect { request ->
                     if (request == null || request.isNotValid) {
-                        Log.v("Poro", "Repo.getSuggestTrack: Cached request is not valid")
                         safeApiCall { api ->
                             api.browse.getRecommendations(seedTracks = listOf(seedTrackId)).tracks
                                 .let { results ->
                                     // Update cache since we're here
-                                    trackDao.upsertTracks(results.map { it.toCachedTrack() })
-
-                                    Log.v(
-                                        "Poro",
-                                        "Repo.getSuggestTrack: api found ${results.size} tracks"
-                                    )
+                                    trackDao.upsertCachedTracks(results.map { it.toCachedTrack() })
 
                                     suggestedTracksDao.updateResults(
                                         seedTrackId = seedTrackId,
@@ -390,9 +378,7 @@ internal class RepositoryImpl @Inject constructor(
                                 }
                         }
                     } else {
-                        Log.v("Poro", "Repo.getSuggestTrack: Cached request is valid")
                         suggestedTracksDao.getResults(seedTrackId).collect { results ->
-                            Log.v("Poro", "Repo.getSuggestTrack: emitting ${results.size}")
                             getTracks(results.map { it.suggestedTrackId }.toSet())
                                 .collect { emit(it) }
                         }
@@ -436,7 +422,7 @@ internal class RepositoryImpl @Inject constructor(
     override suspend fun upsertUserData(
         id: String,
         spotifyType: SpotifyType,
-        userData: UserData
+        userData: UserData,
     ) {
         return userDataDao.upsertUserData(
             DatabaseUserData(

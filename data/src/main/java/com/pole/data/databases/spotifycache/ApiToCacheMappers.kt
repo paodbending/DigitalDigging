@@ -1,6 +1,8 @@
 package com.pole.data.databases.spotifycache
 
-import com.adamratzman.spotify.models.*
+import com.adamratzman.spotify.models.Album
+import com.adamratzman.spotify.models.Artist
+import com.adamratzman.spotify.models.Track
 import com.pole.data.databases.spotifycache.album.CachedAlbum
 import com.pole.data.databases.spotifycache.artist.CachedArtist
 import com.pole.data.databases.spotifycache.track.CachedTrack
@@ -33,7 +35,9 @@ internal fun Album.toCachedAlbum(): CachedAlbum {
         releaseDateDay = releaseDate.day,
         genres = genres.joinToString(separator = ","),
         label = label,
-        popularity = popularity
+        popularity = popularity,
+        artistIds = artists.joinToString(separator = ",") { it.id },
+        artistNames = artists.joinToString(separator = ",") { it.name }
     )
 }
 
@@ -50,23 +54,8 @@ internal fun Track.toCachedTrack(): CachedTrack {
         explicit = explicit,
         length = length,
         popularity = popularity,
-        albumId = album.id
-    )
-}
-
-internal fun SimpleTrack.toCachedTrack(albumId: String): CachedTrack {
-    return CachedTrack(
-        id = id,
-        spotifyUrl = externalUrls.spotify,
-        name = name,
-        artistIds = artists.joinToString(separator = ",") { it.id },
-        previewUrl = previewUrl,
-        type = type,
-        trackNumber = trackNumber,
-        discNumber = discNumber,
-        explicit = explicit,
-        length = length,
-        popularity = popularity,
-        albumId = albumId
+        albumId = album.id,
+        imageUrl = album.images.firstOrNull()?.url,
+        artistNames = artists.joinToString(separator = ",") { it.name },
     )
 }

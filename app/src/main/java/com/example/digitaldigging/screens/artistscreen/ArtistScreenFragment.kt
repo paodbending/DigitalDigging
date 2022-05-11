@@ -10,9 +10,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.digitaldigging.R
+import com.example.digitaldigging.UIResource
 import com.example.digitaldigging.databinding.FragmentArtistScreenBinding
 import com.example.digitaldigging.screens.common.albumlist.AlbumAdapter
-import com.pole.domain.model.NetworkResource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.roundToInt
 
@@ -27,7 +27,7 @@ class ArtistScreenFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding =
             FragmentArtistScreenBinding.inflate(LayoutInflater.from(context), container, false)
@@ -49,34 +49,47 @@ class ArtistScreenFragment : Fragment() {
         binding.singlesRecyclerView.adapter = singlesAdapter
 
         viewModel.state.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                ArtistScreenState.ArtistNotFound -> {}
-                ArtistScreenState.Loading -> {}
-                is ArtistScreenState.Ready -> {
-                    binding.artistNameTextView.text = state.artist.name
-                    binding.followersCountTextView.text = getFollowerString(state.artist.followers)
 
-                    binding.addToLibraryButton.setImageResource(
-                        if (state.userData.library) R.drawable.ic_baseline_bookmark_24
-                        else R.drawable.ic_baseline_bookmark_border_24
-                    )
+            binding.networkErrorLayout.root.visibility =
+                if (state is ArtistScreenState.Error) View.VISIBLE else View.GONE
+            binding.progressCircular.visibility =
+                if (state is ArtistScreenState.Loading) View.VISIBLE else View.GONE
+            binding.readyLayout.visibility =
+                if (state is ArtistScreenState.Ready) View.VISIBLE else View.GONE
 
-                    binding.scheduleButton.setImageResource(
-                        if (state.userData.scheduled) R.drawable.ic_baseline_watch_later_24
-                        else R.drawable.ic_baseline_schedule_24
-                    )
+            if (state is ArtistScreenState.Ready) {
 
-                    Glide
-                        .with(binding.root)
-                        .load(state.artist.imageUrl)
-                        .centerCrop()
-                        .into(binding.artistImageView)
+                binding.artistNameTextView.text = state.artist.name
+                binding.followersCountTextView.text = getFollowerString(state.artist.followers)
 
-                    if (state.albums is NetworkResource.Ready) {
-                        val artistsAlbum = state.albums.value
-                        albumsAdapter.submitList(artistsAlbum.albums)
-                        singlesAdapter.submitList(artistsAlbum.singles)
-                    }
+                binding.addToLibraryButton.setImageResource(
+                    if (state.userData.library) R.drawable.ic_baseline_bookmark_24
+                    else R.drawable.ic_baseline_bookmark_border_24
+                )
+
+                binding.scheduleButton.setImageResource(
+                    if (state.userData.scheduled) R.drawable.ic_baseline_watch_later_24
+                    else R.drawable.ic_baseline_schedule_24
+                )
+
+                Glide
+                    .with(binding.root)
+                    .load(state.artist.imageUrl)
+                    .centerCrop()
+                    .into(binding.artistImageView)
+
+                binding.albumsProgressCircular.visibility =
+                    if (state.albums is UIResource.Loading) View.VISIBLE else View.GONE
+
+                binding.albumsErrorLayout.root.visibility =
+                    if (state.albums is UIResource.Error) View.VISIBLE else View.GONE
+
+                binding.albumLayout.visibility =
+                    if (state.albums is UIResource.Ready) View.VISIBLE else View.GONE
+
+                if (state.albums is UIResource.Ready) {
+                    albumsAdapter.submitList(state.albums.value.albums)
+                    singlesAdapter.submitList(state.albums.value.singles)
                 }
             }
         }

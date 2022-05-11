@@ -3,22 +3,37 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2245" />
+        <entry key="app/src/main/res/drawable/app_icon_foreground.xml" value="0.2835" />
         <entry key="app/src/main/res/drawable/ic_baseline_bookmark_24.xml" value="0.2385" />
         <entry key="app/src/main/res/drawable/ic_baseline_bookmark_border_24.xml" value="0.2385" />
+        <entry key="app/src/main/res/drawable/ic_baseline_explicit_24.xml" value="0.2835" />
         <entry key="app/src/main/res/drawable/ic_baseline_library_music_24.xml" value="0.2385" />
+        <entry key="app/src/main/res/drawable/ic_baseline_music_note_24.xml" value="0.2245" />
         <entry key="app/src/main/res/drawable/ic_baseline_schedule_24.xml" value="0.2385" />
+        <entry key="app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.2835" />
         <entry key="app/src/main/res/drawable/ic_baseline_watch_later_24.xml" value="0.2385" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.2245" />
+        <entry key="app/src/main/res/drawable/rounded_corners.xml" value="0.2245" />
+        <entry key="app/src/main/res/drawable/search_type_button.xml" value="0.2245" />
+        <entry key="app/src/main/res/drawable/search_type_selected.xml" value="0.2245" />
+        <entry key="app/src/main/res/drawable/search_type_selector.xml" value="0.2835" />
+        <entry key="app/src/main/res/drawable/selected_rounded_corners.xml" value="0.2245" />
+        <entry key="app/src/main/res/font/alata.xml" value="0.43385416666666665" />
         <entry key="app/src/main/res/font/app_font.xml" value="0.262037037037037" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.38451612903225807" />
+        <entry key="app/src/main/res/layout/error_layout.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/fragment_album_info.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_album_screen.xml" value="0.23802083333333332" />
         <entry key="app/src/main/res/layout/fragment_artist_info.xml" value="0.2796296296296296" />
         <entry key="app/src/main/res/layout/fragment_artist_screen.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/fragment_main.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/fragment_search.xml" value="0.4036458333333333" />
-        <entry key="app/src/main/res/layout/fragment_search_screen.xml" value="0.23802083333333332" />
+        <entry key="app/src/main/res/layout/fragment_search_screen.xml" value="0.25555555555555554" />
+        <entry key="app/src/main/res/layout/fragment_search_screen_compose.xml" value="0.2712962962962963" />
+        <entry key="app/src/main/res/layout/fragment_search_screen_standard.xml" value="0.2712962962962963" />
         <entry key="app/src/main/res/layout/fragment_track_info.xml" value="0.3890625" />
-        <entry key="app/src/main/res/layout/fragment_track_screen.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_track_screen.xml" value="0.34122448979591835" />
         <entry key="app/src/main/res/layout/layout_album.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/layout_album_info.xml" value="0.2078125" />
         <entry key="app/src/main/res/layout/layout_artisst.xml" value="0.4036458333333333" />
@@ -26,6 +41,9 @@
         <entry key="app/src/main/res/layout/layout_artist_name.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/layout_track.xml" value="0.33" />
         <entry key="app/src/main/res/layout/layout_tracks_info.xml" value="0.2078125" />
+        <entry key="app/src/main/res/layout/wrapped_layout_album.xml" value="0.4036458333333333" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/app_icon.xml" value="0.2835" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/app_icon_round.xml" value="0.2835" />
       </map>
     </option>
   </component>

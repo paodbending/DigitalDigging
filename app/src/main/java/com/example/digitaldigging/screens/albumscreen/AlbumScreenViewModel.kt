@@ -1,17 +1,23 @@
 package com.example.digitaldigging.screens.albumscreen
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
+import androidx.lifecycle.viewModelScope
+import com.example.digitaldigging.UIResource
+import com.example.digitaldigging.toUIResource
 import com.pole.domain.model.NetworkResource
 import com.pole.domain.model.spotify.SpotifyType
 import com.pole.domain.usecases.spotify.GetAlbum
 import com.pole.domain.usecases.spotify.GetAlbumTracks
+import com.pole.domain.usecases.spotify.GetArtists
 import com.pole.domain.usecases.userdata.FlipUserDataLibrary
 import com.pole.domain.usecases.userdata.FlipUserDataScheduled
 import com.pole.domain.usecases.userdata.GetUserData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,48 +26,51 @@ class AlbumScreenViewModel @Inject constructor(
     private val getAlbum: GetAlbum,
     private val getAlbumTracks: GetAlbumTracks,
     getUserData: GetUserData,
+    private val getArtists: GetArtists,
     private val flipUserDataScheduled: FlipUserDataScheduled,
     private val flipUserDataLibrary: FlipUserDataLibrary,
 ) : ViewModel() {
 
-    private val albumId = MutableLiveData<String>()
+    private val albumIdFlow = MutableStateFlow("")
 
-    val state: LiveData<AlbumScreenState> = albumId.distinctUntilChanged().switchMap { albumId ->
-        liveData(Dispatchers.Default) {
+    val state: LiveData<AlbumScreenState> = liveData(Dispatchers.Default) {
+        albumIdFlow.collectLatest { albumId ->
 
             emit(AlbumScreenState.Loading)
 
-            combine(
-                getAlbum(albumId),
-                getAlbumTracks(albumId),
-                getUserData(albumId, SpotifyType.ALBUM)
-            ) { albumResource, tracksResource, userData ->
-
-                when (albumResource) {
-                    is NetworkResource.Error -> emit(AlbumScreenState.AlbumNotFound)
-                    is NetworkResource.Loading -> emit(AlbumScreenState.Loading)
-                    is NetworkResource.Ready -> {
-
-                        val tracks = when (tracksResource) {
-                            is NetworkResource.Ready -> tracksResource.value.sortedBy { it.trackNumber }
-                            else -> emptyList()
+            getAlbum(albumId).collectLatest { albumResource ->
+                getAlbumTracks(albumId).collectLatest { tracksResource ->
+                    getUserData(albumId, SpotifyType.ALBUM).collectLatest { userData ->
+                        when (albumResource) {
+                            is NetworkResource.Error -> emit(AlbumScreenState.Error)
+                            is NetworkResource.Loading -> emit(AlbumScreenState.Loading)
+                            is NetworkResource.Ready -> {
+                                getArtists(albumResource.value.artistIds.toSet()).collectLatest { artistsResource ->
+                                    emit(AlbumScreenState.Ready(
+                                        album = albumResource.value,
+                                        userData = userData,
+                                        tracks = when (tracksResource) {
+                                            is NetworkResource.Ready -> UIResource.Ready(
+                                                tracksResource.value.sortedBy { it.trackNumber })
+                                            else -> tracksResource.toUIResource()
+                                        },
+                                        artists = when (artistsResource) {
+                                            is NetworkResource.Ready -> UIResource.Ready(
+                                                artistsResource.value)
+                                            else -> artistsResource.toUIResource()
+                                        }
+                                    ))
+                                }
+                            }
                         }
-
-                        emit(
-                            AlbumScreenState.Ready(
-                                album = albumResource.value,
-                                tracks = tracks,
-                                userData = userData
-                            )
-                        )
                     }
                 }
-            }.collect()
+            }
         }
     }
 
     fun setAlbumId(id: String) {
-        albumId.value = id
+        albumIdFlow.value = id
     }
 
     fun flipLibrary() {

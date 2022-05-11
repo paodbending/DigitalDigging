@@ -1,6 +1,7 @@
 package com.pole.domain
 
-import com.pole.domain.model.*
+import com.pole.domain.model.NetworkResource
+import com.pole.domain.model.UserData
 import com.pole.domain.model.spotify.*
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Singleton
@@ -9,7 +10,7 @@ import javax.inject.Singleton
 interface Repository {
 
     // Search
-    fun getSearchResults(searchQuery: String): Flow<NetworkResource<SearchResult>>
+    fun getSearchResultIds(searchQuery: String): Flow<NetworkResource<SearchResultIds>>
 
     // Artist
     fun getArtist(id: String): Flow<NetworkResource<Artist>>

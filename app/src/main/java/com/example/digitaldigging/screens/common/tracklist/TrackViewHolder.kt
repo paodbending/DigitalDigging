@@ -2,13 +2,14 @@ package com.example.digitaldigging.screens.common.tracklist
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.digitaldigging.databinding.LayoutTrackBinding
 import com.pole.domain.model.spotify.Track
 
 class TrackViewHolder(
     private val showTrackNumber: Boolean,
     private val binding: LayoutTrackBinding,
-    private val onClick: (Track) -> Unit
+    private val onClick: (Track) -> Unit,
 ) :
     RecyclerView.ViewHolder(binding.root) {
 
@@ -29,6 +30,14 @@ class TrackViewHolder(
                 binding.durationTextView.text = it.duration
 
                 binding.explicitImageView.visibility = if (it.explicit) View.VISIBLE else View.GONE
+
+                binding.trackArtistsTextView.text = it.artistNames.joinToString(separator = ", ")
+
+                Glide
+                    .with(binding.root)
+                    .load(it.imageUrl)
+                    .centerInside()
+                    .into(binding.trackImageView)
             }
         }
 }

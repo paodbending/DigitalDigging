@@ -6,7 +6,7 @@ data class Artist(
     val name: String,
     val type: String,
     val imageUrl: String?,
-    val followers: Int? = null,
+    val followers: Int,
     val genres: List<String>,
     val popularity: Int,
 )

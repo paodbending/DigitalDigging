@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Theme.DigitalDigging" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
+        <!-- Font-->
+        <item name="fontFamily">@font/alata</item>
+
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/spotify_green</item>
+        <item name="colorPrimaryVariant">@color/spotify_green</item>
+        <item name="colorOnPrimary">@color/spotify_black</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/spotify_green</item>
+        <item name="colorSecondaryVariant">@color/spotify_green</item>
+        <item name="colorOnSecondary">@color/spotify_black</item>
+
+        <!-- Background Color -->
+        <item name="android:windowBackground">@color/spotify_black</item>
+
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+
+        <!-- Android Navigation Bar-->
+        <item name="android:navigationBarColor">@color/spotify_black</item>
+
+
+        <!-- TextView -->
+        <item name="android:textViewStyle">@style/AppTheme.TextView</item>
+
+        <!-- EditText-->
+        <item name="android:editTextStyle">@style/AppTheme.EditText</item>
+
+    </style>
+
+    <style name="AppTheme.TextAppearance" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="AppTheme.TextView" parent="@style/Widget.MaterialComponents.TextView">
+        <item name="android:textAppearance">@style/AppTheme.TextAppearance</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="AppTheme.EditText" parent="@style/Widget.AppCompat.EditText">
+        <item name="android:editTextColor">@color/white</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textAppearance">@style/AppTheme.TextAppearance</item>
+    </style>
+
+    <style name="roundedImageViewRounded">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+</resources>

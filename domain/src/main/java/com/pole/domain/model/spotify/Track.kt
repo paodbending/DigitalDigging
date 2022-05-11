@@ -31,9 +31,11 @@ data class Track(
 
     val length: Int,
 
-    val popularity: Int? = null,
+    val popularity: Int,
 
+    val imageUrl: String?,
     val albumId: String,
+    val artistNames: List<String>
 ) {
     val duration: String = length.toTrackDuration()
 }

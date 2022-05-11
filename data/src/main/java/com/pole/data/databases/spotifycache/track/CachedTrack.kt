@@ -11,6 +11,7 @@ internal data class CachedTrack(
 
     val name: String,
     val artistIds: String,
+    val artistNames: String,
 
     val previewUrl: String? = null,
 
@@ -21,7 +22,9 @@ internal data class CachedTrack(
 
     val length: Int,
 
-    val popularity: Int? = null,
+    val popularity: Int,
 
     val albumId: String,
+    val imageUrl: String? = null,
+
 ) : CachedValue(System.currentTimeMillis())

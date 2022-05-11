@@ -7,12 +7,15 @@ import androidx.recyclerview.widget.ListAdapter
 import com.example.digitaldigging.databinding.LayoutAlbumBinding
 import com.pole.domain.model.spotify.Album
 
-class AlbumAdapter(private val onClick: (Album) -> Unit) : ListAdapter<Album, AlbumViewHolder>(DiffCallback) {
+class AlbumAdapter(private val wrap: Boolean = false, private val onClick: (Album) -> Unit) :
+    ListAdapter<Album, AlbumViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlbumViewHolder {
         val binding = LayoutAlbumBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
+        if(wrap) binding.root.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
+
         return AlbumViewHolder(binding, onClick)
     }
 

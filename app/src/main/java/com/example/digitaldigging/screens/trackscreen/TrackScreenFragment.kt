@@ -10,10 +10,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.digitaldigging.R
+import com.example.digitaldigging.UIResource
 import com.example.digitaldigging.databinding.FragmentTrackScreenBinding
 import com.example.digitaldigging.screens.common.artistlist.ArtistsAdapter
 import com.example.digitaldigging.screens.common.tracklist.TrackAdapter
-import com.pole.domain.model.NetworkResource
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -27,21 +27,18 @@ class TrackScreenFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentTrackScreenBinding.inflate(layoutInflater, container, false)
 
         viewModel.setTrackId(navArgs.spotifyId)
 
-        binding.albumImageView.setOnClickListener {
-            val state = viewModel.state.value
-            if (state is TrackScreenState.Ready && state.album is NetworkResource.Ready) {
-                findNavController().navigate(
-                    TrackScreenFragmentDirections.actionTrackScreenFragmentToAlbumScreenFragment(
-                        state.album.value.id
-                    )
-                )
-            }
+        binding.trackImageView.setOnClickListener {
+            navigateToAlbumScreen()
+        }
+
+        binding.albumNameTextView.setOnClickListener {
+            navigateToAlbumScreen()
         }
 
         val artistAdapter = ArtistsAdapter { artist ->
@@ -53,14 +50,14 @@ class TrackScreenFragment : Fragment() {
         }
         binding.artistsRecyclerView.adapter = artistAdapter
 
-        val recommendedTracksAdapter = TrackAdapter { track ->
+        val suggestedTracksAdapter = TrackAdapter { track ->
             findNavController().navigate(
                 TrackScreenFragmentDirections.actionTrackScreenFragmentSelf(
                     track.id
                 )
             )
         }
-        binding.recommendedTracksRecyclerView.adapter = recommendedTracksAdapter
+        binding.suggestedTracksRecyclerView.adapter = suggestedTracksAdapter
 
         binding.addToLibraryButton.setOnClickListener {
             viewModel.flipLibrary()
@@ -71,84 +68,70 @@ class TrackScreenFragment : Fragment() {
         }
 
         viewModel.state.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                TrackScreenState.Loading -> {
-                    //todo
-                }
-                TrackScreenState.TrackNotFound -> {
-                    //todo
-                }
-                is TrackScreenState.Ready -> {
 
-                    binding.trackNameTextView.text = state.track.name
-                    binding.durationTextView.text = state.track.duration
-                    binding.explicitImageView.visibility =
-                        if (state.track.explicit) View.VISIBLE else View.INVISIBLE
+            binding.progressCircular.visibility =
+                if (state is TrackScreenState.Loading) View.VISIBLE else View.GONE
+
+            binding.networkErrorLayout.root.visibility =
+                if (state is TrackScreenState.Error) View.VISIBLE else View.GONE
+
+            binding.readyLayout.visibility =
+                if (state is TrackScreenState.Ready) View.VISIBLE else View.GONE
+
+            if (state is TrackScreenState.Ready) {
+
+                Glide.with(this).load(state.track.imageUrl).centerInside()
+                    .into(binding.trackImageView)
+
+                binding.trackNameTextView.text = state.track.name
+                binding.durationTextView.text = state.track.duration
+
+                binding.albumNameTextView.text = state.album.name
+
+                binding.explicitImageView.visibility =
+                    if (state.track.explicit) View.VISIBLE else View.GONE
+
+                binding.addToLibraryButton.setImageResource(
+                    if (state.userData.library) R.drawable.ic_baseline_bookmark_24
+                    else R.drawable.ic_baseline_bookmark_border_24
+                )
+
+                binding.scheduleButton.setImageResource(
+                    if (state.userData.scheduled) R.drawable.ic_baseline_watch_later_24
+                    else R.drawable.ic_baseline_schedule_24
+                )
+
+                binding.artistsError.root.visibility =
+                    if (state.artists is UIResource.Error) View.VISIBLE else View.GONE
+                binding.artistsProgressIndicator.visibility =
+                    if (state.artists is UIResource.Loading) View.VISIBLE else View.GONE
+                binding.artistsRecyclerView.visibility =
+                    if (state.artists is UIResource.Ready) View.VISIBLE else View.GONE
+                artistAdapter.submitList(if (state.artists is UIResource.Ready) state.artists.value else emptyList())
 
 
-                    binding.addToLibraryButton.setImageResource(
-                        if (state.userData.library) R.drawable.ic_baseline_bookmark_24
-                        else R.drawable.ic_baseline_bookmark_border_24
-                    )
-
-                    binding.scheduleButton.setImageResource(
-                        if (state.userData.scheduled) R.drawable.ic_baseline_watch_later_24
-                        else R.drawable.ic_baseline_schedule_24
-                    )
-
-                    when (val artistsResource = state.artists) {
-                        is NetworkResource.Error -> {
-                            binding.artistsProgressIndicator.visibility = View.GONE
-                            binding.artistsRecyclerView.visibility = View.GONE
-                            artistAdapter.submitList(emptyList())
-                        }
-                        is NetworkResource.Loading -> {
-                            binding.artistsRecyclerView.visibility = View.GONE
-                            artistAdapter.submitList(emptyList())
-                            binding.artistsProgressIndicator.visibility = View.VISIBLE
-                        }
-                        is NetworkResource.Ready -> {
-                            binding.artistsProgressIndicator.visibility = View.GONE
-                            artistAdapter.submitList(artistsResource.value)
-                            binding.artistsRecyclerView.visibility = View.VISIBLE
-                        }
-                    }
-
-                    when (val albumResource = state.album) {
-                        is NetworkResource.Error -> {
-
-                        }
-                        is NetworkResource.Loading -> {
-
-                        }
-                        is NetworkResource.Ready -> {
-                            Glide.with(this).load(albumResource.value.imageUrl).centerInside()
-                                .into(binding.albumImageView)
-                        }
-                    }
-
-                    when (val suggestedTracksResource = state.suggestedTracks) {
-                        is NetworkResource.Error -> {
-                            binding.suggestedTracksProgressIndicator.visibility = View.GONE
-                            binding.recommendedTracksRecyclerView.visibility = View.GONE
-                            recommendedTracksAdapter.submitList(emptyList())
-                        }
-                        is NetworkResource.Loading -> {
-                            binding.recommendedTracksRecyclerView.visibility = View.GONE
-                            recommendedTracksAdapter.submitList(emptyList())
-                            binding.suggestedTracksProgressIndicator.visibility = View.VISIBLE
-                        }
-                        is NetworkResource.Ready -> {
-                            binding.suggestedTracksProgressIndicator.visibility = View.GONE
-                            recommendedTracksAdapter.submitList(suggestedTracksResource.value)
-                            binding.recommendedTracksRecyclerView.visibility = View.VISIBLE
-                        }
-                    }
-                }
+                binding.suggestedTracksError.root.visibility =
+                    if (state.suggestedTracks is UIResource.Error) View.VISIBLE else View.GONE
+                binding.suggestedTracksProgressIndicator.visibility =
+                    if (state.suggestedTracks is UIResource.Loading) View.VISIBLE else View.GONE
+                binding.suggestedTracksRecyclerView.visibility =
+                    if (state.suggestedTracks is UIResource.Ready) View.VISIBLE else View.GONE
+                suggestedTracksAdapter.submitList(if (state.suggestedTracks is UIResource.Ready) state.suggestedTracks.value else emptyList())
             }
         }
 
         return binding.root
+    }
+
+    private fun navigateToAlbumScreen() {
+        val state = viewModel.state.value
+        if (state is TrackScreenState.Ready) {
+            findNavController().navigate(
+                TrackScreenFragmentDirections.actionTrackScreenFragmentToAlbumScreenFragment(
+                    state.album.id
+                )
+            )
+        }
     }
 
     override fun onDestroy() {

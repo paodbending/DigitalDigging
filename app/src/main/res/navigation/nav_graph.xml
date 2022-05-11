@@ -13,6 +13,12 @@
         <action
             android:id="@+id/action_searchScreenFragment_to_artistScreenFragment"
             app:destination="@id/artistScreenFragment" />
+        <action
+            android:id="@+id/action_searchScreen_to_albumScreenFragment"
+            app:destination="@id/albumScreenFragment" />
+        <action
+            android:id="@+id/action_searchScreen_to_trackScreenFragment"
+            app:destination="@id/trackScreenFragment" />
     </fragment>
     <fragment
         android:id="@+id/artistScreenFragment"

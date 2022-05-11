@@ -12,6 +12,8 @@ data class Album(
     val albumType: AlbumType,
     val name: String,
     val type: String,
+    val artistIds: List<String>,
+    val artistNames: List<String>,
     val imageUrl: String?,
     val totalTracks: Int? = null,
     val releaseDate: ReleaseDate,

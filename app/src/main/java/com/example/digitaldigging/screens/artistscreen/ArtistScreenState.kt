@@ -1,6 +1,6 @@
 package com.example.digitaldigging.screens.artistscreen
 
-import com.pole.domain.model.NetworkResource
+import com.example.digitaldigging.UIResource
 import com.pole.domain.model.UserData
 import com.pole.domain.model.spotify.Album
 import com.pole.domain.model.spotify.Artist
@@ -9,17 +9,16 @@ sealed interface ArtistScreenState {
 
     object Loading : ArtistScreenState
 
-    object ArtistNotFound : ArtistScreenState
+    object Error : ArtistScreenState
 
     data class Ready(
         val artist: Artist,
         val userData: UserData,
-        val albums: NetworkResource<ArtistAlbums>,
+        val albums: UIResource<Albums>,
     ) : ArtistScreenState {
-        data class ArtistAlbums(
+        data class Albums(
             val albums: List<Album>,
             val singles: List<Album>,
         )
     }
 }
-

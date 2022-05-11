@@ -1,7 +1,7 @@
 package com.pole.domain.model.spotify
 
 data class SearchResult(
-    val artistIds: List<String> = emptyList(),
-    val albumIds: List<String> = emptyList(),
-    val trackIds: List<String> = emptyList()
+    val artists: List<Artist> = emptyList(),
+    val albums: List<Album> = emptyList(),
+    val tracks: List<Track> = emptyList()
 )

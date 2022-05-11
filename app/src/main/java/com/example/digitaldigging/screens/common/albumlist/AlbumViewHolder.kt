@@ -7,7 +7,7 @@ import com.pole.domain.model.spotify.Album
 
 class AlbumViewHolder(
     private val binding: LayoutAlbumBinding,
-    private val onClick: (Album) -> Unit
+    private val onClick: (Album) -> Unit,
 ) : RecyclerView.ViewHolder(binding.root) {
 
     var album: Album? = null
@@ -20,6 +20,8 @@ class AlbumViewHolder(
                     .into(binding.albumImageView)
 
                 binding.albumNameTextView.text = album.name
+                binding.artistNameTextView.text = album.artistNames.joinToString(", ")
+                binding.albumYearTextView.text = album.releaseDate.year.toString()
             }
         }
 

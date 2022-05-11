@@ -5,42 +5,73 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:minHeight="48dp"
     android:orientation="horizontal"
-    android:padding="8dp">
+    android:paddingHorizontal="8dp"
+    android:paddingVertical="8dp">
 
     <TextView
         android:id="@+id/track_number_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:minEms="1"
+        android:textColor="@color/spotify_gray_light"
         android:textAlignment="center"
-        android:textSize="12sp"
+        android:visibility="visible"
         tools:text="18" />
 
-    <TextView
-        android:id="@+id/track_name_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:ellipsize="end"
-        android:lines="1"
-        tools:text="@tools:sample/cities" />
-
     <ImageView
-        android:id="@+id/explicit_image_view"
-        android:layout_width="14dp"
-        android:layout_height="14dp"
-        android:layout_marginStart="8dp"
-        android:contentDescription="@string/explicit"
-        android:scaleType="centerInside"
-        android:src="@drawable/ic_baseline_explicit_24"
-        app:tint="@color/spotify_gray_light" />
+        android:id="@+id/track_image_view"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        tools:src="@tools:sample/avatars"
+        android:contentDescription="@string/album_cover" />
 
-    <Space
+    <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="8dp"
+        android:layout_weight="1"
+        android:gravity="start|center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/track_name_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:textSize="15sp"
+            android:lines="1"
+            tools:text="@tools:sample/cities" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="start|center_vertical">
+
+            <ImageView
+                android:id="@+id/explicit_image_view"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="2dp"
+                android:contentDescription="@string/explicit"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_baseline_explicit_24"
+                app:tint="@color/spotify_gray_light" />
+
+            <TextView
+                android:id="@+id/track_artists_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:lines="1"
+                android:textSize="12sp"
+                android:textColor="@color/spotify_gray_light"
+                tools:text="@tools:sample/cities" />
+
+        </LinearLayout>
+    </LinearLayout>
 
     <TextView
         android:id="@+id/duration_text_view"

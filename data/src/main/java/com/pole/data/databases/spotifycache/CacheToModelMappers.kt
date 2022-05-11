@@ -4,7 +4,6 @@ import com.pole.data.databases.spotifycache.album.CachedAlbum
 import com.pole.data.databases.spotifycache.artist.CachedArtist
 import com.pole.data.databases.spotifycache.track.CachedTrack
 import com.pole.domain.model.spotify.*
-import java.lang.IllegalArgumentException
 
 
 internal fun CachedArtist.toModelArtist(): Artist {
@@ -14,7 +13,7 @@ internal fun CachedArtist.toModelArtist(): Artist {
         name = name,
         type = type,
         imageUrl = imageUrl,
-        followers = followers,
+        followers = followers ?: 0,
         genres = genres.split(","),
         popularity = popularity
     )
@@ -31,6 +30,8 @@ internal fun CachedAlbum.toModelAlbum(): Album {
         },
         name = name,
         type = type,
+        artistIds = artistIds.split(","),
+        artistNames = artistNames.split(","),
         imageUrl = imageUrl,
         totalTracks = totalTracks,
         genres = genres.split(","),
@@ -57,6 +58,8 @@ internal fun CachedTrack.toModelTrack(): Track {
         explicit = explicit,
         length = length,
         popularity = popularity,
-        albumId = albumId
+        albumId = albumId,
+        imageUrl = imageUrl,
+        artistNames = artistNames.split(",")
     )
 }

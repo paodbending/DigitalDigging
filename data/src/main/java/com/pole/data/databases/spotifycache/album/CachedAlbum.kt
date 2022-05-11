@@ -9,6 +9,8 @@ internal data class CachedAlbum(
     @PrimaryKey val id: String,
     val spotifyUrl: String?,
     val albumType: String,
+    val artistIds: String,
+    val artistNames: String,
     val name: String,
     val type: String,
     val imageUrl: String?,
