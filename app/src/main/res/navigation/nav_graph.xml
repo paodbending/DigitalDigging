@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/searchScreen"
-        android:name="com.example.digitaldigging.screens.search.SearchScreenFragment"
+        android:name="com.pole.digitaldigging.screens.search.SearchScreenFragment"
         android:label="fragment_search_screen"
         tools:layout="@layout/fragment_search_screen" >
         <action
@@ -22,7 +22,7 @@
     </fragment>
     <fragment
         android:id="@+id/artistScreenFragment"
-        android:name="com.example.digitaldigging.screens.artistscreen.ArtistScreenFragment"
+        android:name="com.pole.digitaldigging.screens.artistscreen.ArtistScreenFragment"
         android:label="fragment_artist_screen"
         tools:layout="@layout/fragment_artist_screen" >
         <argument
@@ -37,7 +37,7 @@
     </fragment>
     <fragment
         android:id="@+id/albumScreenFragment"
-        android:name="com.example.digitaldigging.screens.albumscreen.AlbumScreenFragment"
+        android:name="com.pole.digitaldigging.screens.albumscreen.AlbumScreenFragment"
         android:label="fragment_album_screen"
         tools:layout="@layout/fragment_album_screen" >
         <argument
@@ -52,7 +52,7 @@
     </fragment>
     <fragment
         android:id="@+id/trackScreenFragment"
-        android:name="com.example.digitaldigging.screens.trackscreen.TrackScreenFragment"
+        android:name="com.pole.digitaldigging.screens.trackscreen.TrackScreenFragment"
         android:label="fragment_track_screen"
         tools:layout="@layout/fragment_track_screen" >
         <argument
