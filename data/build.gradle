@@ -2,7 +2,6 @@ plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
-    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -47,10 +46,9 @@ dependencies {
     // Spotify web API
     implementation 'com.adamratzman:spotify-api-kotlin-core:3.8.5'
 
-    // Dagger-Hilt
-    def dagger_hilt_version = "2.41"
-    implementation "com.google.dagger:hilt-android:$dagger_hilt_version"
-    kapt "com.google.dagger:hilt-compiler:$dagger_hilt_version"
+    // Koin
+    implementation 'io.insert-koin:koin-core:3.2.0'
+    testImplementation 'io.insert-koin:koin-test:3.2.0'
 
     // Unit Test
     testImplementation 'junit:junit:4.13.2'

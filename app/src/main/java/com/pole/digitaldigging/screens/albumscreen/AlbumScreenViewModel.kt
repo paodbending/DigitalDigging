@@ -9,14 +9,11 @@ import com.pole.domain.entities.NetworkResource
 import com.pole.domain.usecases.GetAlbum
 import com.pole.domain.usecases.GetAlbumTracks
 import com.pole.domain.usecases.GetArtists
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
-import javax.inject.Inject
 
-@HiltViewModel
-class AlbumScreenViewModel @Inject constructor(
+class AlbumScreenViewModel(
     private val getAlbum: GetAlbum,
     private val getAlbumTracks: GetAlbumTracks,
     private val getArtists: GetArtists,

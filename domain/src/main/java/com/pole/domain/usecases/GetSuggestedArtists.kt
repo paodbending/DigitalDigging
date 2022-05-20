@@ -1,11 +1,8 @@
 package com.pole.domain.usecases
 
 import com.pole.domain.Repository
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class GetSuggestedArtists @Inject constructor(
+class GetSuggestedArtists(
     private val repository: Repository
 ) {
     operator fun invoke(seedArtistId: String) = repository.getSuggestedArtists(seedArtistId)

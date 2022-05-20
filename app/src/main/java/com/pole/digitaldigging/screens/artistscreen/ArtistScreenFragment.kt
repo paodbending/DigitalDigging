@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
@@ -13,13 +12,12 @@ import com.pole.digitaldigging.R
 import com.pole.digitaldigging.UIResource
 import com.pole.digitaldigging.databinding.FragmentArtistScreenBinding
 import com.pole.digitaldigging.screens.common.albumlist.AlbumAdapter
-import dagger.hilt.android.AndroidEntryPoint
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.math.roundToInt
 
-@AndroidEntryPoint
 class ArtistScreenFragment : Fragment() {
 
-    private val viewModel: ArtistScreenViewModel by viewModels()
+    private val viewModel: ArtistScreenViewModel by viewModel()
     private val args: ArtistScreenFragmentArgs by navArgs()
 
     private var _binding: FragmentArtistScreenBinding? = null

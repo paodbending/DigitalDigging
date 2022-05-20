@@ -2,9 +2,7 @@ package com.pole.domain
 
 import com.pole.domain.entities.*
 import kotlinx.coroutines.flow.Flow
-import javax.inject.Singleton
 
-@Singleton
 interface Repository {
 
     // Search

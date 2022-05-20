@@ -8,11 +8,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.transformLatest
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class GetSearchResults @Inject constructor(
+class GetSearchResults(
     private val repository: Repository,
     private val getArtists: GetArtists,
     private val getAlbums: GetAlbums,

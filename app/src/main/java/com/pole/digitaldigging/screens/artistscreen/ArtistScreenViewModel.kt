@@ -4,19 +4,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.pole.digitaldigging.UIResource
-import com.pole.domain.entities.NetworkResource
 import com.pole.domain.entities.AlbumType
+import com.pole.domain.entities.NetworkResource
 import com.pole.domain.usecases.GetArtist
 import com.pole.domain.usecases.GetArtistAlbums
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
-import javax.inject.Inject
 
-@HiltViewModel
-class ArtistScreenViewModel @Inject constructor(
+
+class ArtistScreenViewModel(
     private val getArtist: GetArtist,
     private val getArtistAlbums: GetArtistAlbums,
 ) : ViewModel() {

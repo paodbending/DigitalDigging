@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.pole.digitaldigging.UIResource
 import com.pole.digitaldigging.databinding.FragmentSearchScreenBinding
@@ -15,12 +14,11 @@ import com.pole.digitaldigging.screens.common.albumlist.AlbumAdapter
 import com.pole.digitaldigging.screens.common.artistlist.ArtistViewHolder
 import com.pole.digitaldigging.screens.common.artistlist.ArtistsAdapter
 import com.pole.digitaldigging.screens.common.tracklist.TrackAdapter
-import dagger.hilt.android.AndroidEntryPoint
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-@AndroidEntryPoint
 class SearchScreenFragment : Fragment() {
 
-    private val viewModel: SearchViewModel by viewModels()
+    private val viewModel: SearchViewModel by viewModel()
 
     private var _binding: FragmentSearchScreenBinding? = null
     private val binding: FragmentSearchScreenBinding get() = _binding!!

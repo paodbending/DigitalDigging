@@ -6,15 +6,12 @@ import androidx.lifecycle.liveData
 import com.pole.digitaldigging.UIResource
 import com.pole.domain.entities.NetworkResource
 import com.pole.domain.usecases.GetSearchResults
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
-import javax.inject.Inject
 
-@HiltViewModel
-class SearchViewModel @Inject constructor(
+class SearchViewModel(
     private val getSearchResults: GetSearchResults,
 ) : ViewModel() {
 

@@ -4,11 +4,8 @@ import com.pole.domain.Repository
 import com.pole.domain.entities.NetworkResource
 import com.pole.domain.entities.Track
 import kotlinx.coroutines.flow.Flow
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class GetTrack @Inject constructor(
+class GetTrack(
     private val repository: Repository
 ) {
     operator fun invoke(spotifyId: String): Flow<NetworkResource<Track>> = repository.getTrack(spotifyId)

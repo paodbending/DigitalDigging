@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
@@ -13,16 +12,15 @@ import com.pole.digitaldigging.UIResource
 import com.pole.digitaldigging.databinding.FragmentTrackScreenBinding
 import com.pole.digitaldigging.screens.common.artistlist.ArtistsAdapter
 import com.pole.digitaldigging.screens.common.tracklist.TrackAdapter
-import dagger.hilt.android.AndroidEntryPoint
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-@AndroidEntryPoint
 class TrackScreenFragment : Fragment() {
 
     private var _binding: FragmentTrackScreenBinding? = null
     private val binding: FragmentTrackScreenBinding get() = _binding!!
 
     private val navArgs: TrackScreenFragmentArgs by navArgs()
-    private val viewModel: TrackScreenViewModel by viewModels()
+    private val viewModel: TrackScreenViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

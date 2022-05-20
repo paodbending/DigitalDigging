@@ -9,15 +9,12 @@ import com.pole.domain.usecases.GetAlbum
 import com.pole.domain.usecases.GetArtists
 import com.pole.domain.usecases.GetSuggestedTracks
 import com.pole.domain.usecases.GetTrack
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
-import javax.inject.Inject
 
-@HiltViewModel
-class TrackScreenViewModel @Inject constructor(
+class TrackScreenViewModel(
     private val getTrack: GetTrack,
     private val getArtists: GetArtists,
     private val getAlbum: GetAlbum,

@@ -10,17 +10,14 @@ import com.pole.data.databases.spotifycache.artistalbums.ArtistAlbumsResult
 import com.pole.data.databases.spotifycache.search.CachedSearchResult
 import com.pole.data.databases.spotifycache.suggestedartists.SuggestedArtistsResult
 import com.pole.data.databases.spotifycache.suggetedtracks.SuggestedTracksResult
-import com.pole.domain.Repository
 import com.pole.domain.AppError
+import com.pole.domain.Repository
 import com.pole.domain.entities.*
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-internal class RepositoryImpl @Inject constructor(
+internal class RepositoryImpl(
     private val spotifyAppApiBuilder: SpotifyAppApiBuilder,
     spotifyCacheDatabase: SpotifyCacheDatabase,
 ) : Repository {
