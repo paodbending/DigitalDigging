@@ -26,4 +26,6 @@
     <string name="no_internet_connection_error">No Internet Connection!</string>
     <string name="search_something">Search something!</string>
     <string name="search_icon">Search Icon</string>
+    <string name="play_button">Play Button</string>
+    <string name="no_preview_available">No Preview Available!</string>
 </resources>
