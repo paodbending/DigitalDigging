@@ -9,7 +9,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
-import com.pole.digitaldigging.R
 import com.pole.digitaldigging.UIResource
 import com.pole.digitaldigging.databinding.FragmentArtistScreenBinding
 import com.pole.digitaldigging.screens.common.albumlist.AlbumAdapter
@@ -93,7 +92,7 @@ class ArtistScreenFragment : Fragment() {
 
     private fun getFollowerString(followers: Int?): String? {
         return if (followers == null) null else context?.getString(
-            R.string.s_followers, when {
+            com.pole.uiresources.R.string.s_followers, when {
                 followers > 1_000_000_000 -> "${(followers / 1_000_000 * 1000.0).roundToInt() / 1000.0} B"
                 followers > 1_000_000 -> "${(followers / 1_000_000 * 1000.0).roundToInt() / 1000.0} M"
                 followers > 1_000 -> "${(followers / 1_000 * 1000.0).roundToInt() / 1000.0} K"

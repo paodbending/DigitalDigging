@@ -16,3 +16,5 @@ rootProject.name = "DigitalDigging"
 include ':app'
 include ':domain'
 include ':data'
+include ':trackpreview'
+include ':uiresources'
