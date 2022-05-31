@@ -13,7 +13,7 @@ import com.pole.digitaldigging.UIResource
 import com.pole.digitaldigging.databinding.FragmentTrackScreenBinding
 import com.pole.digitaldigging.screens.common.artistlist.ArtistsAdapter
 import com.pole.digitaldigging.screens.common.tracklist.TrackAdapter
-import com.pole.trackpreview.MediaPlayerTrackPreviewPlayer
+import com.pole.trackpreview.api.TrackPreviewViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -24,7 +24,7 @@ class TrackScreenFragment : Fragment() {
 
     private val navArgs: TrackScreenFragmentArgs by navArgs()
     private val viewModel: TrackScreenViewModel by viewModels()
-    private val trackPreviewViewModel: MediaPlayerTrackPreviewPlayer by viewModels()
+    private val trackPreviewViewModel: TrackPreviewViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -84,7 +84,7 @@ class TrackScreenFragment : Fragment() {
                 binding.explicitImageView.visibility =
                     if (state.track.explicit) View.VISIBLE else View.GONE
 
-                trackPreviewViewModel.setUrl(state.track.previewUrl)
+                trackPreviewViewModel.trackPreviewPlayer.setUrl(state.track.previewUrl)
 
                 binding.artistsError.root.visibility =
                     if (state.artists is UIResource.Error) View.VISIBLE else View.GONE

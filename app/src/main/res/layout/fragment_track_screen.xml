@@ -84,7 +84,7 @@
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/track_preview_fragment"
-                android:name="com.pole.trackpreview.TrackPreviewFragment"
+                android:name="com.pole.trackpreview.api.TrackPreviewFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
