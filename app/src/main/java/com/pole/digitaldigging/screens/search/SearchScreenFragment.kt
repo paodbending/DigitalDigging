@@ -147,68 +147,91 @@ class SearchScreenFragment : Fragment() {
             viewModel.setTrackSortType(TrackSortType.LENGTH)
         }
 
-        viewModel.state.observe(viewLifecycleOwner) { state ->
+        viewModel.results.observe(viewLifecycleOwner) { results ->
 
-            state.searchSettings.let { searchSettings ->
+            binding.progressIndicator.setVisibleIf(results is UIResource.Loading)
 
-                binding.searchTypeBestsResults.isSelected =
-                    searchSettings.searchType == SearchType.ALL
-                binding.searchTypeArtists.isSelected =
-                    searchSettings.searchType == SearchType.ARTISTS
-                binding.searchTypeAlbums.isSelected =
-                    searchSettings.searchType == SearchType.ALBUMS
-                binding.searchTypeTracks.isSelected =
-                    searchSettings.searchType == SearchType.TRACKS
+            binding.errorLayout.setVisibleIf(results is UIResource.Error)
 
-                binding.bestsResults.setVisibleIf(searchSettings.searchType == SearchType.ALL && state.results is UIResource.Ready)
-                binding.artistsRecyclerView.setVisibleIf(!(state.results !is UIResource.Ready || searchSettings.searchType != SearchType.ARTISTS))
-                binding.albumsRecyclerView.setVisibleIf(!(state.results !is UIResource.Ready || searchSettings.searchType != SearchType.ALBUMS))
-                binding.tracksRecyclerView.setVisibleIf(!(state.results !is UIResource.Ready || searchSettings.searchType != SearchType.TRACKS))
-
-                binding.artistSortTypeSelectors.setVisibleIf(searchSettings.searchType == SearchType.ARTISTS)
-                binding.artistSortRelevance.isSelected =
-                    searchSettings.artistSortType == ArtistSortType.RELEVANCE
-                binding.artistSortFollowers.isSelected =
-                    searchSettings.artistSortType == ArtistSortType.FOLLOWERS
-                binding.artistSortPopularity.isSelected =
-                    searchSettings.artistSortType == ArtistSortType.POPULARITY
-
-                binding.albumSortTypeSelectors.setVisibleIf(searchSettings.searchType == SearchType.ALBUMS)
-                binding.albumSortRelevance.isSelected =
-                    searchSettings.albumSortType == AlbumSortType.RELEVANCE
-                binding.albumSortPopularity.isSelected =
-                    searchSettings.albumSortType == AlbumSortType.POPULARITY
-                binding.albumSortReleaseDate.isSelected =
-                    searchSettings.albumSortType == AlbumSortType.RELEASE_DATE
-
-                binding.trackSortTypeSelectors.setVisibleIf(searchSettings.searchType == SearchType.TRACKS)
-                binding.trackSortRelevance.isSelected =
-                    searchSettings.trackSortType == TrackSortType.RELEVANCE
-                binding.trackSortPopularity.isSelected =
-                    searchSettings.trackSortType == TrackSortType.POPULARITY
-                binding.trackSortLength.isSelected =
-                    searchSettings.trackSortType == TrackSortType.LENGTH
-            }
-
-            binding.progressIndicator.setVisibleIf(state.results is UIResource.Loading && state.searchQuery.isNotEmpty())
-
-            binding.errorLayout.setVisibleIf(state.results is UIResource.Error)
-
-            binding.messageLayout.setVisibleIf(state.searchQuery.isEmpty())
+            updateRecyclerViewsVisibility(
+                viewModel.searchQuery.value,
+                viewModel.searchSettings.value,
+                results
+            )
 
             bestsArtistsViewHolder.artist =
-                if (state.results is UIResource.Ready) state.results.value.artists.firstOrNull() else null
+                if (results is UIResource.Ready) results.value.artists.firstOrNull() else null
+            bestResultsAlbumAdapter.submitList(if (results is UIResource.Ready) results.value.albums else emptyList())
+            bestResultsTrackAdapter.submitList(if (results is UIResource.Ready) results.value.tracks else emptyList())
 
-            artistAdapter.submitList(if (state.results is UIResource.Ready) state.results.value.artists else emptyList())
-            bestResultsAlbumAdapter.submitList(if (state.results is UIResource.Ready) state.results.value.albums.take(
-                5) else emptyList())
-            albumAdapter.submitList(if (state.results is UIResource.Ready) state.results.value.albums else emptyList())
-            trackAdapter.submitList(if (state.results is UIResource.Ready) state.results.value.tracks else emptyList())
-            bestResultsTrackAdapter.submitList(if (state.results is UIResource.Ready) state.results.value.tracks.take(
-                5) else emptyList())
+            artistAdapter.submitList(if (results is UIResource.Ready) results.value.artists else emptyList())
+            albumAdapter.submitList(if (results is UIResource.Ready) results.value.albums else emptyList())
+            trackAdapter.submitList(if (results is UIResource.Ready) results.value.tracks else emptyList())
+        }
+
+        viewModel.searchQuery.observe(viewLifecycleOwner) { searchQuery ->
+            binding.messageLayout.setVisibleIf(searchQuery.isEmpty())
+            if (binding.searchEditText.text.toString() != searchQuery) {
+                binding.searchEditText.setText(searchQuery)
+            }
+        }
+
+        viewModel.searchSettings.observe(viewLifecycleOwner) { searchSettings ->
+
+            binding.searchTypeBestsResults.isSelected =
+                searchSettings.searchType == SearchType.ALL
+            binding.searchTypeArtists.isSelected =
+                searchSettings.searchType == SearchType.ARTISTS
+            binding.searchTypeAlbums.isSelected =
+                searchSettings.searchType == SearchType.ALBUMS
+            binding.searchTypeTracks.isSelected =
+                searchSettings.searchType == SearchType.TRACKS
+
+            binding.artistSortTypeSelectors.setVisibleIf(searchSettings.searchType == SearchType.ARTISTS)
+            binding.artistSortRelevance.isSelected =
+                searchSettings.artistSortType == ArtistSortType.RELEVANCE
+            binding.artistSortFollowers.isSelected =
+                searchSettings.artistSortType == ArtistSortType.FOLLOWERS
+            binding.artistSortPopularity.isSelected =
+                searchSettings.artistSortType == ArtistSortType.POPULARITY
+
+            binding.albumSortTypeSelectors.setVisibleIf(searchSettings.searchType == SearchType.ALBUMS)
+            binding.albumSortRelevance.isSelected =
+                searchSettings.albumSortType == AlbumSortType.RELEVANCE
+            binding.albumSortPopularity.isSelected =
+                searchSettings.albumSortType == AlbumSortType.POPULARITY
+            binding.albumSortReleaseDate.isSelected =
+                searchSettings.albumSortType == AlbumSortType.RELEASE_DATE
+
+            binding.trackSortTypeSelectors.setVisibleIf(searchSettings.searchType == SearchType.TRACKS)
+            binding.trackSortRelevance.isSelected =
+                searchSettings.trackSortType == TrackSortType.RELEVANCE
+            binding.trackSortPopularity.isSelected =
+                searchSettings.trackSortType == TrackSortType.POPULARITY
+            binding.trackSortLength.isSelected =
+                searchSettings.trackSortType == TrackSortType.LENGTH
+
+            updateRecyclerViewsVisibility(
+                viewModel.searchQuery.value,
+                searchSettings,
+                viewModel.results.value
+            )
         }
 
         return binding.root
+    }
+
+    private fun updateRecyclerViewsVisibility(
+        searchQuery: String?,
+        searchSettings: SearchSettings?,
+        results: UIResource<Results>?,
+    ) {
+        if (searchQuery == null || searchSettings == null || results == null) return
+
+        binding.bestsResults.setVisibleIf(searchQuery.isNotEmpty() && searchSettings.searchType == SearchType.ALL && results is UIResource.Ready)
+        binding.artistsRecyclerView.setVisibleIf(searchQuery.isNotEmpty() && results is UIResource.Ready && searchSettings.searchType == SearchType.ARTISTS)
+        binding.albumsRecyclerView.setVisibleIf(searchQuery.isNotEmpty() && results is UIResource.Ready && searchSettings.searchType == SearchType.ALBUMS)
+        binding.tracksRecyclerView.setVisibleIf(searchQuery.isNotEmpty() && results is UIResource.Ready && searchSettings.searchType == SearchType.TRACKS)
     }
 
     private fun View.setVisibleIf(bool: Boolean) {

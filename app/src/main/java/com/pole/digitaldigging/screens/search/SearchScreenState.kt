@@ -1,6 +1,5 @@
 package com.pole.digitaldigging.screens.search
 
-import com.pole.digitaldigging.UIResource
 import com.pole.domain.entities.Album
 import com.pole.domain.entities.Artist
 import com.pole.domain.entities.Track
@@ -32,10 +31,4 @@ data class Results(
     val artists: List<Artist>,
     val albums: List<Album>,
     val tracks: List<Track>,
-)
-
-data class SearchScreenState(
-    val searchQuery: String,
-    val searchSettings: SearchSettings,
-    val results: UIResource<Results>,
 )
