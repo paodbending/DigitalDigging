@@ -11,15 +11,19 @@ import kotlinx.coroutines.flow.transformLatest
 import javax.inject.Inject
 import javax.inject.Singleton
 
+interface GetSearchResults {
+    operator fun invoke(query: String): Flow<NetworkResource<SearchResult>>
+}
+
 @Singleton
-class GetSearchResults @Inject constructor(
+internal class GetSearchResultsImpl @Inject constructor(
     private val repository: Repository,
     private val getArtists: GetArtists,
     private val getAlbums: GetAlbums,
     private val getTracks: GetTracks,
-) {
+) : GetSearchResults {
     @OptIn(ExperimentalCoroutinesApi::class)
-    operator fun invoke(query: String): Flow<NetworkResource<SearchResult>> {
+    override operator fun invoke(query: String): Flow<NetworkResource<SearchResult>> {
         return repository.getSearchResultIds(query).transformLatest { searchResults ->
             when (searchResults) {
                 is NetworkResource.Loading -> emit(NetworkResource.Loading())
