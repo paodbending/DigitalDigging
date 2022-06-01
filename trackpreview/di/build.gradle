@@ -33,7 +33,8 @@ android {
 
 dependencies {
 
-    api project(path: ':trackpreview:impl')
+    api project(path: ':trackpreview:api')
+    implementation project(path: ':trackpreview:impl')
 
     // Hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"
