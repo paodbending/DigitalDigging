@@ -22,7 +22,7 @@ enum class TrackSortType {
 }
 
 data class SearchSettings(
-    val searchType: SearchType,
+    val searchType: SearchType = SearchType.ALL,
     val artistSortType: ArtistSortType = ArtistSortType.RELEVANCE,
     val albumSortType: AlbumSortType = AlbumSortType.RELEVANCE,
     val trackSortType: TrackSortType = TrackSortType.RELEVANCE,
