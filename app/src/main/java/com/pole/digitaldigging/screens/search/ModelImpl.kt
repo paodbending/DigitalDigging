@@ -5,15 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import com.pole.digitaldigging.UIResource
 import com.pole.domain.entities.NetworkResource
 import com.pole.domain.usecases.GetSearchResults
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 class ModelImpl(
     private val getSearchResults: GetSearchResults,
     private val coroutineScope: CoroutineScope,
+    private val defaultDispatcher: CoroutineDispatcher,
 ) : Model {
 
     override var searchQuery = ""
@@ -31,14 +29,14 @@ class ModelImpl(
         this.searchQuery = searchQuery
 
         job?.cancel()
-        job = coroutineScope.launch { updateResults() }
+        job = coroutineScope.launch(defaultDispatcher) { updateResults() }
     }
 
     override fun setSearchSettings(searchSettings: SearchSettings) {
         this.searchSettings = searchSettings
 
         job?.cancel()
-        job = coroutineScope.launch { updateResults() }
+        job = coroutineScope.launch(defaultDispatcher) { updateResults() }
     }
 
     private suspend fun updateResults() {

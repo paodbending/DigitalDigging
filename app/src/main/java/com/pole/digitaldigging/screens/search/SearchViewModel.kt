@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pole.domain.usecases.GetSearchResults
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 
 @HiltViewModel
@@ -15,6 +16,7 @@ class SearchViewModel @Inject constructor(
     private val model: Model = ModelImpl(
         getSearchResults = getSearchResults,
         coroutineScope = viewModelScope,
+        defaultDispatcher = Dispatchers.Default
     )
 
     fun buildPresenter(view: View, lifecycleOwner: LifecycleOwner): Presenter {
