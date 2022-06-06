@@ -3,11 +3,12 @@ package com.pole.digitaldigging.screens.search
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
+import com.pole.digitaldigging.DefaultDispatcher
 import com.pole.digitaldigging.UIResource
 import com.pole.domain.entities.NetworkResource
 import com.pole.domain.usecases.GetSearchResults
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -16,6 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val getSearchResults: GetSearchResults,
+    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
 ) : ViewModel() {
 
     private val searchQueryFlow = MutableStateFlow("")
@@ -27,7 +29,14 @@ class SearchViewModel @Inject constructor(
         trackSortType = TrackSortType.RELEVANCE
     ))
 
-    val state: LiveData<SearchScreenState> = liveData(Dispatchers.Default) {
+    val state: LiveData<SearchScreenState> = liveData(defaultDispatcher) {
+
+        emit(SearchScreenState(
+            searchQuery = searchQueryFlow.value,
+            searchSettings = searchSettingFlow.value,
+            results = UIResource.Loading()
+        ))
+
         searchQueryFlow.collectLatest { searchQuery ->
 
             if (searchQuery.isEmpty()) {
