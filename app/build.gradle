@@ -44,14 +44,14 @@ dependencies {
     implementation project(path: ':data')
 
     // Android
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'androidx.core:core-ktx:1.8.0'
+    implementation 'androidx.appcompat:appcompat:1.4.2'
     implementation 'androidx.fragment:fragment-ktx:1.4.1'
-    implementation 'com.google.android.material:material:1.6.0'
+    implementation 'com.google.android.material:material:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
     // Material Design
-    implementation 'com.google.android.material:material:1.6.0'
+    implementation 'com.google.android.material:material:1.6.1'
 
     // View Model
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1"
@@ -73,6 +73,8 @@ dependencies {
 
     // Unit Test
     testImplementation 'junit:junit:4.13.2'
+    testImplementation 'androidx.arch.core:core-testing:2.1.0'
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.2'
 
     // Instrumented Test
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
