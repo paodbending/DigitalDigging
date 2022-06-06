@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.transformLatest
 import javax.inject.Inject
 import javax.inject.Singleton
 
-interface GetSearchResults {
+fun interface GetSearchResults {
     operator fun invoke(query: String): Flow<NetworkResource<SearchResult>>
 }
 
