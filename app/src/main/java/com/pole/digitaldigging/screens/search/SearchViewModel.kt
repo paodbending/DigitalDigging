@@ -4,10 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.pole.digitaldigging.DefaultDispatcher
 import com.pole.digitaldigging.UIResource
 import com.pole.domain.entities.NetworkResource
 import com.pole.domain.usecases.GetSearchResults
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
@@ -17,6 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val getSearchResults: GetSearchResults,
+    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
 ) : ViewModel() {
 
     private val mutableSearchQuery = MutableLiveData("")
@@ -97,7 +100,7 @@ class SearchViewModel @Inject constructor(
     private fun updateResults() {
         job?.cancel()
         job = null
-        job = viewModelScope.launch {
+        job = viewModelScope.launch(defaultDispatcher) {
             updateResults(searchQuery.value ?: "",
                 searchSettings.value ?: SearchSettings(SearchType.ALL))
         }
