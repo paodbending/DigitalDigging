@@ -36,7 +36,7 @@ dependencies {
     implementation project(path: ':domain')
 
     // Android / Kotlin
-    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.2'
 
     // Room
