@@ -30,15 +30,7 @@ class SearchViewModel @Inject constructor(
     ))
 
     val state: LiveData<SearchScreenState> = liveData(defaultDispatcher) {
-
-        emit(SearchScreenState(
-            searchQuery = searchQueryFlow.value,
-            searchSettings = searchSettingFlow.value,
-            results = UIResource.Loading()
-        ))
-
         searchQueryFlow.collectLatest { searchQuery ->
-
             if (searchQuery.isEmpty()) {
                 searchSettingFlow.collectLatest { searchSettings ->
                     emit(

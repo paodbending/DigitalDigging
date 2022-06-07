@@ -60,7 +60,6 @@ class SearchViewModelTest {
         viewModel.setSearchType(SearchType.ALL)
 
         viewModel.state.observeForTesting {
-            it.awaitValue()
             val state = it.awaitValue()
             assert(state != null)
             assert(state?.searchSettings?.artistSortType == ArtistSortType.RELEVANCE)
@@ -74,10 +73,6 @@ class SearchViewModelTest {
         viewModel.search("Eminem")
 
         viewModel.state.observeForTesting {
-            val loadingState = it.awaitValue()
-
-            assert(loadingState?.results is UIResource.Loading)
-
             val readyState = it.awaitValue()
             assert(readyState?.results is UIResource.Ready)
         }
@@ -98,7 +93,6 @@ class SearchViewModelTest {
 
         viewModel.state.observeForTesting {
             assert(it.awaitValue()?.results is UIResource.Loading)
-            assert(it.awaitValue()?.results is UIResource.Loading)
         }
     }
 
@@ -115,8 +109,6 @@ class SearchViewModelTest {
 
         viewModel.search("Eminem")
         viewModel.state.observeForTesting {
-            // Skip loading
-            it.awaitValue()
             val state = it.awaitValue()
 
             assert(state != null)
