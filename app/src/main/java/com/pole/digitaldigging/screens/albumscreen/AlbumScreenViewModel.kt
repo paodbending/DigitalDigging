@@ -25,7 +25,7 @@ class AlbumScreenViewModel @Inject constructor(
         mutableStateOf(AlbumScreenState.Loading)
     val state: State<AlbumScreenState> = mutableState
 
-    suspend fun updateState(albumId: String) {
+    suspend fun collectState(albumId: String) {
         getAlbum(albumId).collectLatest { albumResource ->
             getAlbumTracks(albumId).collectLatest { tracksResource ->
                 when (albumResource) {

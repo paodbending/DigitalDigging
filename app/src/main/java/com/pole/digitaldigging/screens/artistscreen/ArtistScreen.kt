@@ -33,7 +33,7 @@ fun ArtistScreen(
 ) {
 
     LaunchedEffect(viewModel, artistId) {
-        viewModel.updateState(artistId)
+        viewModel.collectState(artistId)
     }
 
     when (val state = viewModel.state.value) {

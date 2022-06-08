@@ -35,7 +35,7 @@ fun TrackScreen(
     onTrackClick: (artistId: String) -> Unit = { },
 ) {
     LaunchedEffect(viewModel) {
-        viewModel.updateState(trackId)
+        viewModel.collectState(trackId)
     }
 
     when (val state = viewModel.state.value) {

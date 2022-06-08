@@ -32,7 +32,7 @@ fun AlbumScreen(
 ) {
 
     LaunchedEffect(viewModel, albumId) {
-        viewModel.updateState(albumId)
+        viewModel.collectState(albumId)
     }
 
     when (val state = viewModel.state.value) {

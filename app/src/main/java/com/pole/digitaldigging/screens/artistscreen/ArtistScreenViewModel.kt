@@ -23,7 +23,7 @@ class ArtistScreenViewModel @Inject constructor(
         mutableStateOf(ArtistScreenState.Loading)
     val state: State<ArtistScreenState> = mutableState
 
-    suspend fun updateState(artistId: String) {
+    suspend fun collectState(artistId: String) {
         combine(
             getArtist(artistId),
             getArtistAlbums(artistId),

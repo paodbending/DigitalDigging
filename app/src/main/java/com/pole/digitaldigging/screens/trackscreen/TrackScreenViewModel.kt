@@ -27,7 +27,7 @@ class TrackScreenViewModel @Inject constructor(
         mutableStateOf(TrackScreenState.Loading)
     val state: State<TrackScreenState> = mutableState
 
-    suspend fun updateState(trackId: String) {
+    suspend fun collectState(trackId: String) {
         getTrack(trackId).collectLatest { trackResource ->
             when (trackResource) {
                 is NetworkResource.Error -> mutableState.value = TrackScreenState.Error
