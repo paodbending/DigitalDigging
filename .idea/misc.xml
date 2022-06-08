@@ -21,7 +21,7 @@
         <entry key="app/src/main/res/drawable/selected_rounded_corners.xml" value="0.2245" />
         <entry key="app/src/main/res/font/alata.xml" value="0.43385416666666665" />
         <entry key="app/src/main/res/font/app_font.xml" value="0.262037037037037" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.38451612903225807" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/error_layout.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/fragment_album_info.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_album_screen.xml" value="0.23802083333333332" />

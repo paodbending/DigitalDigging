@@ -1,13 +1,13 @@
 package com.pole.digitaldigging.screens.search
 
-import androidx.lifecycle.LiveData
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
 import com.pole.digitaldigging.UIResource
 import com.pole.domain.entities.NetworkResource
 import com.pole.domain.usecases.GetSearchResults
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -27,17 +27,23 @@ class SearchViewModel @Inject constructor(
         trackSortType = TrackSortType.RELEVANCE
     ))
 
-    val state: LiveData<SearchScreenState> = liveData(Dispatchers.Default) {
-        searchQueryFlow.collectLatest { searchQuery ->
+    private val mutableState: MutableState<SearchScreenState> = mutableStateOf(
+        SearchScreenState(
+            "",
+            SearchSettings(SearchType.ALL),
+            UIResource.Loading()
+        )
+    )
+    val state: State<SearchScreenState> = mutableState
 
+    suspend fun collectState() {
+        searchQueryFlow.collectLatest { searchQuery ->
             if (searchQuery.isEmpty()) {
                 searchSettingFlow.collectLatest { searchSettings ->
-                    emit(
-                        SearchScreenState(
-                            searchQuery = searchQuery,
-                            searchSettings = searchSettings,
-                            results = UIResource.Loading()
-                        )
+                    mutableState.value = SearchScreenState(
+                        searchQuery = searchQuery,
+                        searchSettings = searchSettings,
+                        results = UIResource.Loading()
                     )
                 }
             } else {
@@ -48,7 +54,7 @@ class SearchViewModel @Inject constructor(
 
                     searchSettingFlow.collectLatest { searchSettings ->
 
-                        emit(SearchScreenState(
+                        mutableState.value = (SearchScreenState(
                             searchQuery = searchQuery,
                             searchSettings = searchSettings,
                             results = when (searchResults) {
