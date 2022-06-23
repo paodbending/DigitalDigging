@@ -26,7 +26,7 @@ class TrackPreviewPlayerMediaPlayerImpl @Inject constructor() : TrackPreviewPlay
 
         setOnErrorListener { _, _, _ ->
             value = TrackPreviewState.NotAvailable
-            false
+            true
         }
 
         setOnPreparedListener {
@@ -39,15 +39,16 @@ class TrackPreviewPlayerMediaPlayerImpl @Inject constructor() : TrackPreviewPlay
     }
 
     override fun setUrl(url: String?) {
-        if (currentUrl == url) return
-        currentUrl = url
-        mediaPlayer.reset()
-        if (url != null) {
+        if(url == null) {
+            currentUrl = null
+            value = TrackPreviewState.NotAvailable
+            return
+        } else if(currentUrl != url) {
+            currentUrl = url
             value = TrackPreviewState.Loading
+            mediaPlayer.reset()
             mediaPlayer.setDataSource(url)
             mediaPlayer.prepareAsync()
-        } else {
-            value = TrackPreviewState.NotAvailable
         }
     }
 
